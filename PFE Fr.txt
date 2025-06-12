@@ -102,12 +102,12 @@
     \begin{center}
         \begin{figure}[h]
             \centering
-            \begin{minipage}{0.26\textwidth}
+            \begin{minipage}{0.27\textwidth}
                 \includegraphics[width=\textwidth]{ensa (1).png}
             \end{minipage}
             \hfill
-            \begin{minipage}{0.35\textwidth}
-                \includegraphics[width=\textwidth]{JESA.png}
+            \begin{minipage}{0.20\textwidth}
+                \includegraphics[width=\textwidth]{ump.png}
             \end{minipage}
         \end{figure}
         
@@ -122,12 +122,11 @@
 
         {\setlength{\baselineskip}{1.5em}
         {\LARGE\textbf{
-        Automatisation et Amélioration du Processus \\
-        de Gestion des Ressources utilisant les Outils \\
-        du Traitement de Données et l'IA \\
+        L'IA \& BI dans l'Automatisation et l'Amélioration des Processus \\
+        de Gestion et Surveillance \\
         }}} \\[1cm]
         
-        {\large Présenté par:}\\[0.3cm]
+        {\large Réalisé par:}\\[0.3cm]
         {\Large\textbf{SAIDI Ahmed}}\\[0.8cm]
         
         {\large Pour l'obtention du:}\\[0.3cm]
@@ -185,6 +184,7 @@ Enfin, à toutes les personnes qui ont cru en moi, même dans mes doutes,\\
 je vous dédie ce travail avec reconnaissance, respect et beaucoup d’affection.
 
 
+\upshape
 % Résumé
 \chapter*{Résumé}
 \addcontentsline{toc}{chapter}{Résumé}
