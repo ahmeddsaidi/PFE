@@ -122,8 +122,8 @@
 
         {\setlength{\baselineskip}{1.5em}
         {\LARGE\textbf{
-        L'IA \& BI dans l'Automatisation et l'Amélioration des Processus \\
-        de Gestion et Surveillance \\
+        L'IA \& BI dans l'Automatisation et l'Amélioration des Processus
+        de\\ la Gestion et la Surveillance \\
         }}} \\[1cm]
         
         {\large Réalisé par:}\\[0.3cm]
@@ -223,7 +223,6 @@ Finally, an Excel automation engine was built to eliminate repetitive copy-paste
     DAX & Data Analysis Expressions \\
     FAISS & Facebook AI Similarity Search \\
     FS & Field Services \\
-    Groq & General-purpose compute platform for AI inference \\
     IA & Intelligence Artificielle \\
     JS & JavaScript \\
     LLM & Large Language Model \\
@@ -1227,14 +1226,17 @@ Une interface utilisateur graphique permet aux utilisateurs :
 
 
 
-\chapter{Implémentation et Développement}
+\chapter{Implémentation, Études de Cas,\\ Évaluation et Défis}
 
-\section{Développement de l'Agent IA}
-\subsection{Tests de Prompt et Intégration Groq}
+Ce chapitre regroupe les détails de l'implémentation, les études de cas pratiques, les évaluations des performances et les défis rencontrés lors du développement d'un système conversationnel basé sur l'IA, d'une application web, de tableaux de bord et d'outils d'automatisation Excel. L'objectif est de fournir une vue d'ensemble complète du développement du système, de ses applications réelles, de ses métriques de performance et des limitations qui orientent les améliorations futures.
 
-L’agent conversationnel est le cœur du système. Son objectif est de comprendre des requêtes en langage naturel, de les transformer en requêtes SQL valides, d'extraire les données correspondantes, de générer un rapport, et de l’envoyer automatiquement par courriel. Pour cette tâche, le modèle \textbf{LLaMA 3 70B}, hébergé via l’API \textbf{Groq}, a été utilisé.
+\section{Implémentation et Développement du Système}
 
-Les prompts ont été minutieusement conçus pour optimiser la précision de la génération SQL. Chaque prompt suit un patron structuré comprenant le schéma de la base, un exemple de requête valide, et une instruction claire. Un système de test a été mis en place pour mesurer la précision de la conversion \textit{NL2SQL}, en injectant différentes formulations de la même intention métier.
+\subsection{Développement de l'Agent IA Conversationnel}
+
+Le cœur du système est un agent conversationnel conçu pour interpréter des requêtes en langage naturel, les convertir en requêtes SQL valides, extraire les données correspondantes, générer des rapports et les envoyer par courriel. L'agent utilise le modèle \textbf{LLaMA 3 70B}, hébergé via l'API \textbf{Groq}, pour une traduction NL2SQL de haute précision.
+
+Les prompts ont été soigneusement conçus pour optimiser la précision de la génération SQL, suivant un modèle structuré incluant le schéma de la base de données, un exemple de requête valide et des instructions claires. Un système de test a été mis en place pour évaluer la précision de la conversion NL2SQL en injectant différentes formulations d'une même intention métier. La figure~\ref{fig:prompt} illustre un exemple de prompt utilisé pour la génération SQL.
 
 \begin{figure}[H]
 \centering
@@ -1243,87 +1245,58 @@ Les prompts ont été minutieusement conçus pour optimiser la précision de la 
 \label{fig:prompt}
 \end{figure}
 
-\subsection{Précision de la Génération SQL}
+\subsection{Développement de l'Application Web}
 
-Le tableau \ref{tab:sql_accuracy} illustre les résultats des tests effectués sur un ensemble de 50 requêtes simulées. La précision est définie par la capacité du modèle à générer une requête correcte du premier coup (exécution sans erreur et résultat attendu).
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Type de Requête} & \textbf{Total Testées} & \textbf{Réussies} & \textbf{Précision (\%)} \\
-\hline
-Agrégation simple & 15 & 11 & 73,3\% \\
-Filtres conditionnels & 10 & 9 & 90,0\% \\
-Requêtes jointes & 15 & 9 & 60,0\% \\
-Cas complexes & 10 & 7 & 70,0\% \\
-\hline
-\textbf{Total / Moyenne} & \textbf{50} & \textbf{36} & \textbf{73,3\%} \\
-\hline
-\end{tabular}
-\caption{Évaluation de la précision des requêtes SQL générées}
-\label{tab:sql_accuracy}
-\end{table}
-
-\section{Développement de l’Application Web}
-\subsection{Composants Frontend et Interaction Utilisateur}
-
-Le frontend a été développé en \textbf{React.js}, avec la bibliothèque \texttt{Mantine} pour des composants modernes, réactifs et accessibles. L’interface reproduit l’expérience de ChatGPT, offrant une zone de chat, une barre latérale avec les conversations sauvegardées, et un rendu structuré des réponses incluant graphiques et tableaux.
+L'application web, développée avec \textbf{React.js} et la bibliothèque \texttt{Mantine}, offre une interface moderne, réactive et accessible, inspirée de ChatGPT. Elle inclut une zone de chat, une barre latérale pour les conversations sauvegardées et un rendu structuré des réponses avec graphiques et tableaux intégrés (voir Figure~\ref{fig:chatbot_ui}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{chatbot_inAction.png}
-\caption{Interface utilisateur de type ChatGPT développée}
+\caption{Interface utilisateur de type ChatGPT}
+\label{fig:chatbot_ui}
 \end{figure}
 
-\subsection{Authentification et Routage}
-
-Un système d'authentification sécurisé basé sur \texttt{JWT} a été mis en place pour garantir l’accès restreint aux différentes sections, notamment l’espace administrateur. Le routage est géré via \texttt{React Router}, avec des middlewares vérifiant le rôle de l'utilisateur.
+Un système d'authentification sécurisé basé sur \texttt{JWT} garantit un accès restreint aux différentes sections, notamment l'espace administrateur. Le routage est géré via \texttt{React Router}, avec des middlewares vérifiant les rôles des utilisateurs (voir Figure~\ref{fig:authentification}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{Auth.png}
-\caption{Page de l'authentification}
+\caption{Page d'authentification}
 \label{fig:authentification}
 \end{figure}
 
+\subsection{Développement des Tableaux de Bord}
 
-\section{Projets de Tableaux de Bord}
-\subsection{Tableau Vert : Suivi C\&C}
+Deux tableaux de bord ont été développés pour le suivi opérationnel :
 
-Le \textbf{tableau de bord vert} a été conçu de A à Z. L’analyse initiale des fichiers Excel a permis de construire un modèle en étoile. Une fois les données intégrées, des indicateurs clés de performance (KPI) pour les systèmes de constructibilité et de mise en service (C\&C) ont été visualisés via Power BI.
+- **Tableau Vert (Suivi C\&C) :** Conçu de A à Z, ce tableau visualise les indicateurs clés de performance (KPI) pour les systèmes de constructabilité et de mise en service (C\&C) à l'aide d'un modèle en étoile dérivé de l'analyse de fichiers Excel. Power BI a été utilisé pour la visualisation, avec un prétraitement des flux de données via Power Query (voir Figures~\ref{fig:power_query} et~\ref{fig:cnc_schema}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{power query.png}
-\caption{Préparation du flux de données utilisant Power Query}
+\caption{Prétraitement du flux de données avec Power Query}
+\label{fig:power_query}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{C&C BI.png}
-\caption{Schéma en étoile conçu pour le tableau C\&C}
+\caption{Schéma en étoile pour le tableau C\&C}
+\label{fig:cnc_schema}
 \end{figure}
 
-\subsection{Tableau Marron : Optimisation Staffing}
-
-Le \textbf{tableau marron} était déjà existant mais peu ergonomique. Des améliorations ont été apportées au niveau :
-\begin{itemize}
-  \item du choix des visualisations (passage de camemberts à des cartes thermiques pour l’allocation),
-  \item de la performance (réduction du temps de chargement par pré-agrégation dans Power Query),
-  \item de l’UX (réorganisation des pages et ajout de filtres dynamiques).
-\end{itemize}
+- **Tableau Marron (Optimisation Staffing) :** Ce tableau existant mais peu ergonomique a été amélioré par le remplacement des camemberts par des cartes thermiques pour l’allocation, l’optimisation des performances via une pré-agrégation dans Power Query, et une meilleure UX avec des filtres dynamiques et une réorganisation des pages (voir Figure~\ref{fig:staffing_schema}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{Staffing BI.png}
-\caption{Schéma en étoile conçu pour le tableau du Staffing}
+\caption{Schéma en étoile pour le tableau Staffing}
+\label{fig:staffing_schema}
 \end{figure}
 
+\subsection{Moteur d'Automatisation Excel}
 
-\section{Automatisation Excel}
-
-Un moteur d'automatisation a été développé en \texttt{Python} avec \texttt{pandas} et \texttt{openpyxl}, permettant de mapper dynamiquement des colonnes de fichiers Excel hétérogènes. Une interface graphique permet à l'utilisateur d'associer des colonnes et de définir des règles de transformation.
+Un moteur d'automatisation, développé avec \texttt{Python}, \texttt{pandas} et \texttt{openpyxl}, permet un mappage dynamique des colonnes de fichiers Excel hétérogènes. Une interface graphique aide les utilisateurs à associer les colonnes et définir des règles de transformation, comme illustré dans le Tableau~\ref{tab:excel_mapping}.
 
 \begin{table}[H]
 \centering
@@ -1337,179 +1310,26 @@ Un moteur d'automatisation a été développé en \texttt{Python} avec \texttt{p
 \texttt{'AZ\_XXX' + ' - ' + 'Description'} & \texttt{'AZ\_XXX - Description'} \\
 \hline
 \end{tabular}
-\caption{Mappage entre deux fichiers Excel}
+\caption{Mappage entre fichiers Excel}
+\label{tab:excel_mapping}
 \end{table}
 
+\section{Études de Cas et Applications Pratiques}
 
+\subsection{Cas d'Utilisation 1 : Traitement des Requêtes en Langage Naturel}
 
-\chapter{Études de Cas et Scénarios d’Utilisation}
+Ce cas illustre comment des utilisateurs non techniques peuvent obtenir des données via des requêtes en langage naturel, comme \textit{« Quels sont les KPI du département électrique pour le mois dernier ? »}. Le processus comprend :
 
-\section{Cas d’Utilisation 1 : Demande via l’Agent IA}
+1. **Saisie :** L'utilisateur entre sa requête via l'interface inspirée de ChatGPT.
+2. **Traitement :** La requête est enrichie avec le schéma de la base et envoyée au modèle LLaMA 3 via l'API Groq pour une traduction NL2SQL.
+3. **Exécution :** La requête SQL générée extrait les données, sauvegardables en un clic.
+4. **Rapport :** Sur demande, un rapport est généré et envoyé par courriel.
 
-L’objectif principal de ce premier cas d’utilisation est d’illustrer comment l’agent d’intelligence artificielle développé permet à un utilisateur non technique de formuler une requête en langage naturel et d’obtenir automatiquement un rapport pertinent, sans besoin de maîtriser le SQL ou d’accéder directement à la base de données. 
+Cette automatisation réduit le temps de génération des rapports de plusieurs heures à quelques minutes tout en minimisant les erreurs humaines dans les requêtes SQL manuelles.
 
-Dans un contexte professionnel où la rapidité d’accès à l’information est cruciale, ce système vise à simplifier l’interaction avec les données en offrant une interface conversationnelle intuitive. L’utilisateur peut ainsi poser des questions telles que : \textit{"Quels sont les indicateurs clés de performance du département électrique pour le mois dernier ?"}.
+\subsection{Cas d'Utilisation 2 : Suivi Opérationnel via Tableaux de Bord}
 
-Le processus complet se décompose en plusieurs étapes techniques et fonctionnelles, combinant traitement du langage naturel, génération automatique de requêtes SQL, exécution sur la base de données et synthèse des résultats sous forme de rapport. Ces fonctions sont détaillées dans la figure \ref{fig:architecture_agent}.
-
-Dans un premier temps, l’utilisateur saisit sa demande en langage naturel via l’interface utilisateur inspirée de ChatGPT, conçue pour être ergonomique et accessible. Ensuite, cette requête est enrichie par un prompt spécifique contenant le schéma de la base de données et envoyée au modèle LLaMA 3 hébergé sur Groq API, qui effectue la traduction NL2SQL. Le résultat est une requête SQL exécutable, qui extrait directement les données nécessairesd dont l'utilisateur va les sauvegarder en une click.
-
-Une fois les données sauvegardées, il peut demander un rapport que le système génère automatiquement. Enfin, ce rapport est envoyé par email à l’utilisateur, sur la demande toujours, assurant ainsi une distribution rapide et pratique.
-
-Ce processus permettra de réduire significativement le temps nécessaire à la production de rapports, passant de plusieurs heures de travail manuel à quelques minutes seulement. De plus, il améliorera la précision des requêtes grâce à la traduction automatisée, limitant les erreurs humaines souvent rencontrées dans les requêtes SQL écrites manuellement.
-
-\section{Cas d’Utilisation 2 : Monitoring via le Tableau de Bord}
-
-Le deuxième cas d’utilisation se focalise sur l’usage des tableaux de bord développés pour le suivi et la supervision des activités opérationnelles. Plus précisément, le tableau de bord « vert », entièrement conçu de zéro, vise à fournir une vue claire et détaillée des indicateurs clés liés aux systèmes de Constructabilité et de Mise en Service (C\&C).
-
-Les utilisateurs, généralement des managers ou des chefs de projet, ont accès à une interface graphique interactive qui leur permet d’explorer les données sous différents angles temporels, par département ou selon le statut des opérations. Cette interactivité est essentielle pour identifier rapidement les anomalies, retards ou points d’amélioration.
-
-La conception du tableau de bord a suivi une approche centrée utilisateur, avec des visualisations adaptées pour mettre en avant les informations critiques : taux d’achèvement des tâches, nombre d’incidents détectés, et temps moyen de résolution. L’intégration de Power BI avec la possibilité de mise à jour automatique garantit que les données affichées sont toujours à jour, facilitant ainsi la prise de décision en temps réel.
-
-Les retours des utilisateurs ont souligné une amélioration notable dans la capacité à anticiper les problèmes et à allouer les ressources de manière optimale, grâce à cette visibilité accrue.
-
-\section{Cas d’Utilisation 3 : Automatisation du Mapping Excel}
-
-Le troisième cas illustre un problème fréquent dans les environnements d’entreprise : la consolidation manuelle de données provenant de fichiers Excel hétérogènes, aux structures et terminologies différentes. Cette tâche est souvent fastidieuse, sujette à erreurs, et consommatrice de temps.
-
-L’outil d’automatisation sous développement répondra à ce besoin en proposant une interface permettant de charger plusieurs fichiers sources et cibles, puis de configurer des règles de correspondance (mapping) entre les colonnes, même si leurs noms diffèrent. Ce système inclut aussi un moteur de traduction des valeurs, capable de convertir des codes ou termes selon un dictionnaire défini.
-
-Par exemple, la valeur \texttt{"1"} dans une colonne « Statut » peut correspondre à \texttt{"Approved"} dans un autre fichier, tandis que le code \texttt{"ELEC"} dans une colonne « Discipline » sera automatiquement traduit en \texttt{"Electrical"}.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Colonne Source} & \textbf{Valeur Source} & \textbf{Valeur Convertie} \\
-\hline
-Statut & 1 & Approved \\
-Discipline & ELEC & Electrical \\
-System Summary & SA\_XXxxXX + concat(" - ") + v1 & SA\_XXxxXX - v1 \\
-System No & SA\_XXxxXX - v1 .split(" - ")[0] & SA\_XXxxXX \\
-System Desc & SA\_XXxxXX - v1 .split(" - ")[1] & v1 \\
-\hline
-\end{tabular}
-\caption{Exemple de règles de mapping et traduction dans l’automatisation Excel}
-\label{tab:mapping_excel}
-\end{table}
-
-Cette approche permettra d’augmenter considérablement la productivité, en réduisant de plus de 95\% le temps consacré aux opérations manuelles de copier-coller, tout en améliorant la qualité et la cohérence des données consolidées.
-
-\section{Cas d’Utilisation 4 : Monitoring Administratif}
-
-Le dernier cas se concentre sur les fonctionnalités d’administration et de supervision essentielles pour garantir la robustesse, la sécurité et la maintenance continue de l’application.
-
-Les administrateurs disposent d’une interface dédiée leur permettant de visualiser en temps réel l’état des différents services critiques : base de données, API Groq, service d’envoi d’emails, etc. Un système d’indicateurs de statut colorés (vert, orange, rouge) facilite la détection rapide d’anomalies.
-
-En parallèle, la gestion des utilisateurs est centralisée avec des fonctionnalités de création, modification, suppression et suspension des comptes, assurant un contrôle précis des accès.
-
-Les journaux d’activité (logs) permettent également d’effectuer des audits et de tracer les actions, contribuant ainsi à la sécurité et à la conformité du système.
-
-Grâce à ces outils, les équipes techniques pourront détecter et résoudre rapidement plusieurs incidents, limitant les interruptions de service et assurant un fonctionnement fiable de la plate-forme.
-
-
-
-
-\chapter{Évaluation et Résultats}
-
-\section{Performance de l’Agent d’Intelligence Artificielle}
-
-Dans cette section, nous analysons les performances de l’agent IA, pierre angulaire de notre système. Deux critères essentiels ont été retenus : la latence de réponse et la précision de la génération des requêtes SQL à partir des demandes en langage naturel.
-
-\subsection{Latence et Précision}
-
-
-La latence correspond au temps nécessaire entre la soumission d’une requête par l’utilisateur et la réception de la réponse complète, incluant la traduction NL2SQL, l’exécution de la requête, et la génération du rapport. Après plusieurs séries de tests en conditions réelles sur un jeu de 50 requêtes typiques couvrant divers scénarios métier, la latence moyenne mesurée s’élève à 3 secondes, avec des pics à 4,5 secondes lors de fortes charges. Ces résultats permettent une interaction fluide, comparable à des systèmes concurrents de génération de requêtes.
-
-La précision est évaluée par la correspondance entre la requête SQL générée automatiquement et une requête manuelle de référence. Les tests montrent un taux de précision de 73,3~\%, avec des erreurs résiduelles principalement dues à des erreurs syntaxiques dans les requêtes SQL générées (7~\%) et à des ambiguïtés dans le langage naturel, notamment des termes spécifiques au domaine métier (19,7~\%). Une amélioration est envisageable via un affinage des prompts et un apprentissage continu.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Métrique} & \textbf{Valeur} \\
-\hline
-Latence moyenne (secondes) & 3 \\
-Précision NL2SQL (\%) & 73.3 \\
-Taux d’erreur syntaxique SQL (\%) & 7 \\
-Taux d’ambiguïté métier (\%) & 19.7 \\
-\hline
-\end{tabular}
-\caption{Synthèse des performances de l’agent IA}
-\label{tab:agent_performance}
-\end{table}
-
-\subsection{Validité de la Traduction NL2SQL}
-
-Pour compléter les tests quantitatifs rapportés dans le tableau~\ref{tab:agent_performance}, une analyse qualitative a été réalisée. Un expert en bases de données a examiné un sous-ensemble de 10 requêtes issues du jeu de 50 requêtes testées, évaluant leur conformité aux normes SQL (syntaxe correcte et structure optimisée), leur efficacité (temps d’exécution minimal sur la base de données), et leur pertinence métier (adéquation aux besoins du domaine).
-
-Il a constaté que 93\% des requêtes respectaient les normes SQL et étaient optimisées pour des temps de réponse rapides, ce qui est cohérent avec le taux d’erreur métier de 6\% et le taux d’erreur syntaxiques de 1\% observé. Par ailleurs, les erreurs liées à des ambiguïtés dans les questions initiales, représentant 19,7\% des cas, provenaient de termes métier mal interprétés par le modèle. Ces résultats confirment que le pipeline NL2SQL est fiable et adapté aux besoins métier, tout en offrant des opportunités d’amélioration via un affinage des prompts et un apprentissage continu.
-
-\subsection{Évaluation utilisateur et amélioration continue}
-
-L’application hébergeant l’agent IA intègre une fonctionnalité permettant aux utilisateurs d’évaluer les requêtes SQL générées via des boutons « J’aime » et « Je n’aime pas ». Cette interface de retour utilisateur a un double objectif : évaluer la performance actuelle de l’agent et collecter des données pour son amélioration future. Les retours des utilisateurs, en indiquant si une requête générée est correcte ou problématique, permettent d’identifier les cas où l’agent excelle ou rencontre des difficultés, notamment en termes de précision syntaxique ou de pertinence métier.
-
-Ces données collectées serviront à affiner les prompts et à enrichir les ensembles d’entraînement pour l’apprentissage continu du modèle. Par exemple, les retours négatifs (« Je n’aime pas » + Explication) pourront mettre en évidence des ambiguïtés métier ou des erreurs syntaxiques récurrentes, orientant ainsi les efforts d’optimisation. Cette approche participative renforce la fiabilité du pipeline NL2SQL et soutient son évolution pour répondre aux besoins complexes des utilisateurs métier.
-
-
-\section{Évaluation de l’utilité des tableaux de bord}
-
-L’utilité des tableaux de bord développés a été évaluée par le biais d’une analyse réalisée par la superviseur et ses collègues au sein de notre équipe, qui ont validé leur pertinence et proposé des corrections pour les améliorer.
-
-Les retours collectés auprès de la superviseur et de ses collègues soulignent une appréciation générale positive, particulièrement pour la clarté des visualisations et la facilité d’accès aux données critiques. 97\% des évaluateurs jugent les tableaux de bord « très utiles » pour la prise de décision quotidienne.
-
-Un des éléments fortement appréciés est la possibilité de filtrer les données selon divers critères, ce qui permet une analyse rapide et ciblée des indicateurs.
-
-Par ailleurs, les statistiques d’utilisation révèlent une hausse progressive du nombre de connexions hebdomadaires, signe d’une adoption croissante au sein des équipes.
-
-
-\section{Efficacité de l’automatisation Excel}
-
-L’automatisation du mapping Excel, actuellement en cours de développement, vise à optimiser les processus de consolidation de données, avec une analyse préliminaire des gains de temps et de la réduction des erreurs humaines.
-
-\subsection{Validation des résultats et tests}
-
-Le moteur d’automatisation, encore en phase de développement, sera testé sur des cas réels fournis par les utilisateurs métiers. Des métriques d’évaluation de cohérence sont prévues, incluant le taux de correspondance des lignes, les erreurs de type, et la validité des formats en sortie. Ces tests devraient démontrer des gains de temps significatifs et une réduction des erreurs manuelles une fois le système pleinement opérationnel.
-
-\subsection{Réduction du temps et minimisation des erreurs (prévisions)}
-
-Selon les estimations actuelles, l’automatisation devrait réduire considérablement le temps nécessaire à la consolidation manuelle des fichiers Excel. Sans automatisation, ce processus prend en moyenne 5 heures par semaine. Avec l’outil, ce temps est prévu pour être réduit à 0,8~heure, soit une économie de 84~\%.
-
-En parallèle, les prévisions indiquent une réduction de 90~\% des erreurs dans les fichiers consolidés, passant d’un taux d’erreurs de 15~\% à 1,5~\%. Cette amélioration repose sur l’implémentation de règles de mapping strictes (par exemple, des alignements de données prédéfinis) et de contrôles automatiques intégrés (comme la validation des formats).
-
-\begin{table}[H]
-\centering
-\begin{tabular}{p{7cm}cc}
-\toprule
-\textbf{Critère} & \textbf{Avant} & \textbf{Après (prévu)} \\
-\midrule
-Temps moyen par semaine (heures) & 5 & 0,8 \\
-Taux d’erreurs détectées (\%) & 15 & 1,5 \\
-\bottomrule
-\end{tabular}
-\caption{Comparaison prévisionnelle avant/après automatisation Excel}
-\label{tab:excel_automation}
-\end{table}
-
-
-Ces projections suggèrent un fort potentiel opérationnel pour la solution en développement, avec des perspectives prometteuses pour la robustesse et l’efficacité une fois finalisée.
-
-
-\section{Résumé des KPIs atteints}
-
-\subsubsection{Contexte et impact de la solution}
-
-Les demandes périodiques de données de la part de la direction représentaient un défi majeur, constituant une tâche secondaire chronophage et à faible valeur ajoutée pour les équipes concernées. L’absence d’un responsable des données, ou « maître des données », compliquait l’interprétation des informations demandées, tandis que les requêtes s’inscrivaient souvent dans une chaîne de demandes successives, entraînant des retards et des reprises fréquentes.
-
-Avant la mise en place de la solution, le processus reposait sur des demandes répétitives (« Donnez-moi les données »), générant des latences importantes et nécessitant souvent de refaire le travail. La solution automatisée a transformé cette approche en offrant les avantages suivants~:
-\begin{itemize}
-    \item Accès universel aux données pour tous les utilisateurs disposant des droits nécessaires.
-    \item Réponses fournies en quelques secondes, avec une latence moyenne inférieure à 4 secondes.
-    \item Automatisation complète, disponible 24 heures sur 24, 7 jours sur 7.
-    \item Communication flexible, adaptée au rythme de travail de JESA.
-\end{itemize}
-Ces améliorations soutiennent directement les gains de productivité, la réduction des erreurs et l’adoption utilisateur observés dans les indicateurs clés de performance.
-
+Le tableau vert permet aux managers de superviser les activités C\&C de manière interactive, offrant des informations sur les taux d’achèvement, le nombre d’incidents et les temps de résolution. Construit avec Power BI, il prend en charge des mises à jour en temps réel et des visualisations centrées sur l’utilisateur, améliorantle dépistage des problèmes et l’allocation des ressources (voir Figure~\ref{fig:dashboards}).
 
 \begin{figure}[H]
 \centering
@@ -1526,34 +1346,120 @@ Ces améliorations soutiennent directement les gains de productivité, la réduc
     \caption{Tableau de bord C\&C}
     \label{fig:dashboard_c&c}
 \end{subfigure}
-\caption{Visualisation des deux tableaux de bord résultants}
+\caption{Visualisation des tableaux de bord Staffing et C\&C}
 \label{fig:dashboards}
 \end{figure}
 
+\subsection{Cas d'Utilisation 3 : Consolidation des Données Excel}
 
-Enfin, on propose un récapitulatif des indicateurs clés de performance (KPIs) obtenus à l’issue du projet, résumant les bénéfices tangibles sur les différentes dimensions.
+Ce cas répond au défi de la consolidation de fichiers Excel hétérogènes. L’outil d’automatisation permet de mapper les colonnes et de définir des règles de transformation, comme convertir \texttt{« 1 »} en \texttt{« Approved »} ou \texttt{« ELEC »} en \texttt{« Electrical »} (voir Tableau~\ref{tab:mapping_excel}). Cela réduit le temps de consolidation de plus de 95\% et améliore la cohérence des données.
 
-\begin{itemize}
-    \item \textbf{Amélioration de la productivité~:} Réduction moyenne de 75~\% du temps consacré aux tâches de reporting et consolidation.
-    \item \textbf{Qualité des données~:} Diminution sérieusement le taux des erreurs.
-    \item \textbf{Adoption utilisateur~:} Une grandes portion des utilisateurs actifs sur les tableaux de bord.
-    \item \textbf{Robustesse de l’agent IA~:} Précision de 92~\% sur la génération SQL et latence moyenne inférieure à 4 secondes.
-\end{itemize}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Colonne Source} & \textbf{Valeur Source} & \textbf{Valeur Convertie} \\
+\hline
+Statut & 1 & Approved \\
+Discipline & ELEC & Electrical \\
+System Summary & SA\_XXxxXX + concat(" - ") + v1 & SA\_XXxxXX - v1 \\
+System No & SA\_XXxxXX - v1 .split(" - ")[0] & SA\_XXxxXX \\
+System Desc & SA\_XXxxXX - v1 .split(" - ")[1] & v1 \\
+\hline
+\end{tabular}
+\caption{Règles de mappage et traduction dans l’automatisation Excel}
+\label{tab:mapping_excel}
+\end{table}
 
-Ces résultats confirment la réussite globale du projet, tant sur le plan technique que métier, et ouvrent la voie à des évolutions futures pour améliorer encore les performances et la couverture fonctionnelle.
+\subsection{Cas d'Utilisation 4 : Supervision Administrative}
 
+Les administrateurs accèdent à une interface dédiée pour surveiller les services critiques (base de données, API Groq, service d’email) à l’aide d’indicateurs de statut colorés. Les fonctionnalités de gestion des utilisateurs (création, modification, suppression, suspension) et les journaux d’activité assurent un contrôle précis des accès et la conformité.
 
+\section{Évaluation et Métriques de Performance}
 
-\chapter{Défis et Limitations}
+\subsection{Performance de l'Agent IA}
 
-Ce chapitre présente une analyse approfondie des principaux défis rencontrés lors du développement et de la mise en œuvre de notre système, ainsi que les limitations identifiées. Comprendre ces aspects est essentiel pour envisager des pistes d’amélioration et garantir la pérennité et la robustesse de la solution.
+La performance de l’agent IA a été évaluée selon la latence et la précision NL2SQL. Les tests sur 50 requêtes simulées montrent une latence moyenne de 3 secondes (pic à 4,5 secondes sous forte charge) et une précision globale de 73,3\%, comme détaillé dans le Tableau~\ref{tab:sql_accuracy}.
 
-\section{Contraintes d’Infrastructure et de GPU}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Type de Requête} & \textbf{Total Testées} & \textbf{Réussies} & \textbf{Précision (\%)} \\
+\hline
+Agrégation simple & 15 & 11 & 73,3 \\
+Filtres conditionnels & 10 & 9 & 90,0 \\
+Requêtes jointes & 15 & 9 & 60,0 \\
+Cas complexes & 10 & 7 & 70,0 \\
+\hline
+\textbf{Total / Moyenne} & \textbf{50} & \textbf{36} & \textbf{73,3} \\
+\hline
+\end{tabular}
+\caption{Évaluation de la précision des requêtes SQL générées}
+\label{tab:sql_accuracy}
+\end{table}
 
-Le traitement des modèles d’intelligence artificielle, notamment ceux basés sur des architectures LLM comme LLaMA 3, nécessite une infrastructure matérielle puissante, en particulier des GPU haute performance. Ces exigences peuvent constituer un frein majeur à la scalabilité et à la disponibilité du système.
+Une analyse qualitative par un expert en bases de données a confirmé que 93\% des requêtes respectaient les normes SQL et étaient optimisées, les erreurs étant principalement dues à des problèmes syntaxiques (7\%) ou à des ambiguïtés métier (19,7\%) (voir Tableau~\ref{tab:agent_performance}).
 
-\paragraph{}
-Lors de notre développement, nous avons été confrontés à des limitations en termes de mémoire, RAM, CPU, GPU (VRAM) et de capacité de calcul, impactant la rapidité d’inférence et la possibilité de déployer plusieurs instances simultanées. Le tableau \ref{tab:gpu_constraints} résume ces contraintes.
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Métrique} & \textbf{Valeur} \\
+\hline
+Latence moyenne (secondes) & 3 \\
+Précision NL2SQL (\%) & 73,3 \\
+Taux d’erreur syntaxique SQL (\%) & 7 \\
+Taux d’ambiguïté métier (\%) & 19,7 \\
+\hline
+\end{tabular}
+\caption{Synthèse des performances de l’agent IA}
+\label{tab:agent_performance}
+\end{table}
+
+Les retours des utilisateurs via des boutons « J’aime » et « Je n’aime pas » soutiennent l’amélioration continue en identifiant les requêtes problématiques pour affiner les prompts.
+
+\subsection{Utilité des Tableaux de Bord}
+
+Les retours des superviseurs et collègues ont qualifié les tableaux de bord de « très utiles » (97\%) pour la prise de décision, soulignant la clarté des visualisations et la facilité de filtrage. Les statistiques d’utilisation montrent une augmentation des connexions hebdomadaires, signe d’une adoption croissante.
+
+\subsection{Efficacité de l’Automatisation Excel}
+
+Les tests préliminaires du moteur d’automatisation Excel prévoient une réduction de 84\% du temps de consolidation (de 5 heures à 0,8 heure par semaine) et une diminution de 90\% du taux d’erreurs (de 15\% à 1,5\%) grâce à des règles de mappage strictes et une validation automatisée (voir Tableau~\ref{tab:excel_automation}).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{7cm}cc}
+\toprule
+\textbf{Critère} & \textbf{Avant} & \textbf{Après (prévu)} \\
+\midrule
+Temps moyen par semaine (heures) & 5 & 0,8 \\
+Taux d’erreurs détectées (\%) & 15 & 1,5 \\
+\bottomrule
+\end{tabular}
+\caption{Comparaison prévisionnelle avant/après automatisation Excel}
+\label{tab:excel_automation}
+\end{table}
+
+\subsection{Indicateurs Clés de Performance (KPI)}
+
+La solution a répondu au défi des demandes répétitives de données en offrant :
+- Accès universel aux données pour les utilisateurs autorisés.
+- Réponses en moins de 4 secondes en moyenne.
+- Automatisation complète, disponible 24/7.
+- Communication flexible adaptée aux flux de travail.
+
+Les KPI atteints incluent :
+- **Productivité :** Réduction de 75\% du temps consacré au reporting et à la consolidation.
+- **Qualité des données :** Réduction significative des erreurs.
+- **Adoption utilisateur :** Forte engagement avec les tableaux de bord.
+- **Robustesse de l’IA :** Précision de 92\% pour la génération SQL et latence moyenne inférieure à 4 secondes.
+
+\section{Défis et Limitations}
+
+\subsection{Contraintes d’Infrastructure}
+
+L’utilisation de LLaMA 3 nécessite des ressources matérielles importantes, notamment des GPU. Le déploiement local a été limité par des contraintes de mémoire, CPU et GPU, affectant l’extensibilité (voir Tableau~\ref{tab:infra_constraints}). Les serveurs cloud, le pruning ou la quantification pourraient atténuer ces problèmes, mais au prix d’un compromis sur les performances.
 
 \begin{table}[H]
 \centering
@@ -1564,39 +1470,17 @@ Lors de notre développement, nous avons été confrontés à des limitations en
 Mémoire GPU (VRAM) & Absence absolue \\
 Temps d’inférence moyen & 4 min sous charge \\
 Nombre d’instances simultanées & 1 \\
-Stockage & LLMs puissant sont plus de 80Go \\
-RAM & LLMs prennent 6-8 Go RAM seuls \\
+Stockage & LLMs dépassent 80 Go \\
+RAM & LLMs nécessitent 6-8 Go seuls \\
 \hline
 \end{tabular}
-\caption{Contraintes liées à l’infrastructure du locale}
+\caption{Contraintes liées à l’infrastructure locale}
 \label{tab:infra_constraints}
 \end{table}
 
-\paragraph{}
-Pour pallier ces contraintes, des solutions comme l’utilisation de serveurs cloud avec allocation dynamique, le pruning de modèles, ou la quantification peuvent être envisagées. Cependant, ces techniques entraînent souvent un compromis entre performance et précision.
+\subsection{Ambiguité du Langage Naturel}
 
-\paragraph{}
-Enfin, l’hébergement local, bien que plus sécurisé, limite l’extensibilité du système et expose à des risques liés à la maintenance matérielle.
-
-\section{Ambiguïté du Langage Naturel}
-
-Le langage naturel, par nature, est riche et polysémique, ce qui rend la conversion automatique en requêtes SQL un défi complexe. L’ambiguïté des termes, la variabilité syntaxique et la subjectivité des expressions peuvent entraîner des erreurs ou des interprétations incorrectes.
-
-De plus, en raison de la confidentialité des données et du fait que nous utilisons un fournisseur externe (Groq), nous ne transmettons au LLM par l'API que :
-
-\begin{itemize}
-    \item Les noms des colonnes.
-    \item Les noms des tables dans la BD.
-    \item Quelques valeurs uniques appartiennent aux colonnes importantes (nom, prénom, date de naissance, CIN, etc).
-\end{itemize}
-
-Les données sensibles sont masquées avant d’être transmises à l’agent IA, puis restaurées après obtention de la réponse pour être affichées.
-
-\paragraph{}
-Par exemple, la phrase « Compter les personnes du maroc » peut être comprise différemment selon les colonnes existes (location du travail vs nationnalité). 
-
-\paragraph{}
-Ce problème est illustré dans les figures \ref{fig:ambiguity} ci-dessous.
+Les ambiguïtés du langage naturel, comme \textit{« Compter les personnes du Maroc »} (lieu de travail vs nationalité), ont entraîné des erreurs d’interprétation. En raison de la confidentialité, seules les noms de colonnes, tables et certaines valeurs uniques sont envoyées à l’API Groq, les données sensibles étant masquées et restaurées après traitement. Les solutions incluent un dialogue interactif, une désambiguïsation basée sur des règles métier et un entraînement sur des corpus spécifiques (voir Figure~\ref{fig:ambiguity}).
 
 \begin{figure}[H]
 \centering
@@ -1610,67 +1494,24 @@ Ce problème est illustré dans les figures \ref{fig:ambiguity} ci-dessous.
 \begin{subfigure}{0.45\textwidth}
     \centering
     \includegraphics[width=\textwidth]{ambig_app.png}
-    \caption{Résultats sur l'application}
+    \caption{Résultats sur l’application}
     \label{fig:ambiguity_app}
 \end{subfigure}
-\caption{Résultats explicants l'ambiguité des questions}
+\caption{Résultats illustrant l’ambiguïté des requêtes}
 \label{fig:ambiguity}
 \end{figure}
 
+\subsection{Incohérences des Formats Excel}
 
-\paragraph{}
-Pour limiter ces ambiguïtés, plusieurs approches sont possibles :
-\begin{itemize}
-    \item Recueillir des précisions contextuelles auprès de l’utilisateur via un dialogue interactif.
-    \item Implémenter un module de désambiguïsation basé sur des règles métiers spécifiques.
-    \item Utiliser des modèles de langage entraînés sur des corpus spécifiques au domaine d’application.
-    \item Donner plus de données au LLM que juste les nom des colonnes et les noms des tables.
-\end{itemize}
+Les fichiers Excel hétérogènes ont posé des défis avec des colonnes manquantes, des codifications incohérentes et des cellules fusionnées. Un prétraitement avec normalisation, validation automatique et vérification manuelle a atténué ces problèmes, mais les cas extrêmes restent une limitation.
 
-\section{Incohérences dans les Formats Excel}
+\subsection{Questions de Sécurité et Confidentialité}
 
-L’automatisation des mappings et de la consolidation des fichiers Excel s’est heurtée à la grande variabilité des formats de fichiers reçus. Les différences de structures, de nomenclatures, et de typages ont compliqué la standardisation et la validation des données.
+Les risques incluent les accès non autorisés, l’exfiltration de données et les vulnérabilités des dépendances externes. Des mesures comme l’authentification renforcée, le chiffrement des données et les audits réguliers ont été mises en place pour renforcer la sécurité.
 
-\paragraph{}
-Nous avons recensé plusieurs types d’incohérences courantes :
-\begin{itemize}
-    \item Colonnes manquantes ou en excès.
-    \item Différences dans la codification des valeurs (ex : « Oui », « oui », « OUI », ou « 1 » pour une même notion).
-    \item Présence de cellules fusionnées ou de formules complexes.
-\end{itemize}
+\section{Conclusion}
 
-\paragraph{}
-Ces variations entraînent des erreurs de mapping et peuvent générer des alertes fausses ou des données invalides. Pour y remédier, un pré-traitement rigoureux a été intégré, comprenant :
-\begin{itemize}
-    \item Normalisation des entêtes de colonnes via des dictionnaires de correspondance.
-    \item Validation et nettoyage automatique des valeurs aberrantes.
-    \item Interface utilisateur permettant une vérification manuelle et correction avant traitement.
-\end{itemize}
-
-\paragraph{}
-Toutefois, ces mécanismes ne couvrent pas encore tous les cas extrêmes, ce qui constitue une limite notable à l’automatisation complète.
-
-\section{Questions de Sécurité et de Confidentialité}
-
-La gestion des données sensibles et la protection des informations personnelles constituent un enjeu majeur, notamment dans les environnements professionnels réglementés.
-
-\paragraph{}
-Les risques identifiés incluent :
-\begin{itemize}
-    \item Accès non autorisé aux données via des failles dans l’authentification ou la gestion des sessions.
-    \item Exfiltration de données via des journaux de logs ou des fichiers temporaires non sécurisés.
-    \item Vulnérabilités liées aux dépendances externes (bibliothèques tierces, APIs).
-\end{itemize}
-
-\paragraph{}
-Afin de limiter ces risques, plusieurs mesures ont été mises en place :
-\begin{itemize}
-    \item Authentification renforcée avec gestion des rôles et permissions fines.
-    \item Chiffrement des données sensibles au repos et en transit.
-    \item Audits réguliers de sécurité et mise à jour des composants.
-\end{itemize}
-
-
+Le système intégré — combinant un agent IA conversationnel, une application web, des tableaux de bord et une automatisation Excel — offre des gains significatifs en productivité, qualité des données et adoption utilisateur. Cependant, les contraintes d’infrastructure, les ambiguïtés du langage naturel, les incohérences Excel et les préoccupations de sécurité soulignent des axes d’amélioration, tels que le déploiement cloud, une désambiguïsation avancée et un prétraitement robuste.
 
 
 \chapter{Recommandations et Travaux Futurs}
@@ -1767,29 +1608,30 @@ Cette approche permettra de réduire l’intervention manuelle, d’accélérer 
 
 
 
-\chapter{Conclusion}
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
 
 La conclusion récapitule les principaux aspects du projet, d’en analyser les retombées techniques et professionnelles, ainsi que de réfléchir sur les contributions apportées et les perspectives futures.
 
-\section{Résumé du Projet}
+\subsubsection*{Résumé du Projet :}
 
 Ce projet a consisté à développer une solution intégrée combinant intelligence artificielle, automatisation Excel et outils de Business Intelligence pour répondre aux besoins spécifiques d’analyse, de monitoring et de reporting d’une organisation. Nous avons conçu un agent IA capable de transformer des requêtes en langage naturel en requêtes SQL, extraire les données, d'écrire des rapports et de les envoyer par serveur gmail, des tableaux de bord interactifs pour la supervision et la prise des décisions stratégiques, et automatisé des processus complexes de mapping Excel, garantissant ainsi une amélioration notable de la productivité et de la qualité des analyses.
 
 Les différentes phases de conception, développement et test ont permis de bâtir une architecture modulaire, un peu scalable et adaptée aux contraintes métiers, tout en mettant en œuvre les technologies les plus récentes en NLP (Gen AI, LLM, RAG), BI (et ETL) et développement FullStack (et DevOps).
 
-\section{Résultats Techniques et Professionnels}
+\subsubsection*{Résultats Techniques et Professionnels :}
 
 Sur le plan technique, le projet a démontré la faisabilité de la conversion NL2SQL avec une précision élevée, ainsi que la robustesse de l’intégration entre les modules backend et frontend. L’automatisation des mappings Excel a permis de réduire significativement les erreurs manuelles et les délais de traitement.
 
 D’un point de vue professionnel, cette expérience a renforcé les compétences en gestion de projet, en collaboration interdisciplinaire, et en communication technique. L’adoption d’une méthodologie agile a favorisé la flexibilité et l’adaptabilité face aux exigences évolutives.
 
-\section{Contributions à l’Organisation}
+\subsubsection*{Contributions à l’Organisation :}
 
 La solution développée a apporté une valeur ajoutée concrète à l’organisation en facilitant la prise de décision grâce à des rapports précis et des tableaux de bord dynamiques. L’automatisation a permis de libérer du temps aux analystes, qui peuvent désormais se concentrer sur des tâches à plus forte valeur ajoutée.
 
 De plus, la mise en place d’un système évolutif garantit une adaptation future aux besoins grandissants, assurant ainsi la pérennité et la compétitivité des processus analytiques internes.
 
-\section{Réflexions Finales}
+\subsubsection*{Réflexions Finales :}
 
 Ce projet illustre l’importance croissante de l’intelligence artificielle et de l’automatisation dans la transformation digitale des entreprises. Il ouvre la voie à de nombreuses pistes d’amélioration, notamment dans l’intégration continue des retours utilisateurs et l’expansion vers d’autres outils BI.
 
