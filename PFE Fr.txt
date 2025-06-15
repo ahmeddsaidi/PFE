@@ -3,6 +3,7 @@
 % Packages essentiels
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{fancyvrb}
 \usepackage[french]{babel}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -114,31 +115,39 @@
         \textsc{\Large Ecole Nationale des Sciences Appliquées d'Oujda}\\[0.5cm]
         \textsc{\large Ingénierie Data Science and Cloud Computing}\\[1cm]
         
-        \hrule
-        \vspace{0.5cm}
-        {\huge\bfseries RAPPORT DE PROJET DE FIN D'ÉTUDES}\\[0.5cm]
-        \hrule
-        \vspace{1cm}
+        \noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}} % Top line
 
+        \vspace{0.5cm} % Vertical spacing between line and title
+        \begin{center}
+            {\huge\bfseries RAPPORT DE PROJET DE FIN D'ÉTUDES}
+        \end{center}
+        \vspace{0.05cm} % Vertical spacing between title and bottom line
+        
+        \noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}} % Bottom line
+
+        \vspace{12px}
+        
         {\setlength{\baselineskip}{1.5em}
         {\LARGE\textbf{
-        L'IA \& BI dans l'Automatisation et l'Amélioration des Processus
-        de\\ la Gestion et la Surveillance \\
-        }}} \\[1cm]
+        IA \& BI : Solutions Intelligentes pour\\ la Digitalisation et la Gestion
+        }}}
+        \vspace{30px}
         
         {\large Réalisé par:}\\[0.3cm]
-        {\Large\textbf{SAIDI Ahmed}}\\[0.8cm]
+        {\Large\textbf{Ahmed SAIDI}}\\[0.8cm]
         
         {\large Pour l'obtention du:}\\[0.3cm]
-        {\Large\textbf{Diplôme d'Ingénieur d'État}}\\[0.8cm]
+        {\Large\textbf{Diplôme d'Ingénieur d'Etat}}\\[0.7cm]
         
         \vfill
         
-        \begin{tabular}{rl}
-            \textbf{Encadrant académique:} & M. Abdelmounaim KERKRI\\
-            \textbf{Encadrant professionnel:} & Mme. Hiba MADRANE\\
-            \textbf{Organisme d'accueil:} & JESA
-        \end{tabular}
+            \begin{tabular}{rl}
+                \textbf{Encadrant académique:} & M. Abdelmounaim KERKRI\\
+                \textbf{Encadrante professionnelle:} & Mme. Hiba MADRANE\\
+                \textbf{Jury d'examen:} & M. Mohamed Amine MADANI\\
+                    & Mme. Asmae EL MEZOUARI\\
+                \textbf{Organisme d'accueil:} & JESA  Buildings \& Infrastructure
+            \end{tabular}
         
         \vfill
         
@@ -191,9 +200,9 @@ je vous dédie ce travail avec reconnaissance, respect et beaucoup d’affection
 
 Ce rapport présente le travail réalisé dans le cadre d’un stage de fin d’études portant sur la conception et le développement d’un système intelligent centré autour d’un agent d’IA conversationnel capable d’extraire des données à partir d’une base SQL, de générer des rapports et de les envoyer automatiquement par e-mail, le tout à partir de requêtes en langage naturel. L’agent repose sur le modèle LLaMA 3 (70B) et est hébergé via l’API Groq, choisie pour sa performance et son coût en l’absence d’infrastructure GPU locale.
 
-Une application web a été développée autour de cet agent, offrant une interface utilisateur semblable à ChatGPT, ainsi qu’un tableau de bord de KPI, une page de gestion des rapports générés, une visualisation embarquée Power BI, et un espace d’administration avec supervision système et gestion des utilisateurs. Deux projets de dashboards ont également été réalisés, dont un construit entièrement depuis un fichier Excel (dashboard vert) et un autre amélioré à partir d’un existant (dashboard brun).
+Une application web a été développée autour de cet agent, offrant une interface utilisateur simple, ainsi qu’une présentation de quelques KPIs, une page de gestion des rapports générés, une visualisation embarquée Power BI, et un espace d’administration avec supervision système et gestion des utilisateurs. Deux projets de rapport PowerBI ont également été réalisés, dont un construit entièrement depuis un fichier Excel (dashboard vert) et un autre amélioré à partir d’un existant (dashboard marron).
 
-Enfin, une solution d’automatisation des tâches répétitives de type copier-coller entre fichiers Excel a été développée, intégrant un moteur de correspondance flexible basé sur des règles définissables par l’utilisateur. L’évaluation du système a montré des performances satisfaisantes en termes de précision, de réactivité et de gain de productivité. Le rapport inclut une étude théorique approfondie, une analyse architecturale complète et des perspectives d’évolution concrètes.
+Enfin, une solution d’automatisation des tâches répétitives de type copier-coller entre fichiers Excel est encore sous développement, intégrant un moteur de correspondance flexible basé sur des règles définissables par l’utilisateur. Les Attentes sur l’évaluation du système vont montrer des performances satisfaisantes en termes de précision, de réactivité et de gain de productivité. Le rapport inclut une étude théorique approfondie, une analyse architecturale complète et des perspectives d’évolution concrètes.
 
 \textbf{Mots-clés} : IA conversationnelle, NL2SQL, LLaMa3, Groq API, Tableau de bord, Power BI, Automatisation Excel, Mappage de données, Prompt Engineering, Business Intelligence, Application Web.
 
@@ -201,11 +210,11 @@ Enfin, une solution d’automatisation des tâches répétitives de type copier-
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-This report details the final-year internship project focused on designing and developing an intelligent system built around a conversational AI agent capable of extracting data from an SQL database, generating reports, and sending them automatically by email, all based on natural language user input. The agent is powered by LLaMA 3 (70B) and hosted through the Groq API, selected for its high speed and cost-efficiency given the absence of local GPU resources.
+This report presents the work carried out as part of a final-year internship focused on the design and development of an intelligent system centered around a conversational AI agent capable of extracting data from an SQL database, generating reports, and automatically sending them via email, all based on natural language queries. The agent is based on the LLaMA 3 (70B) model and is hosted via the Groq API, chosen for its performance and cost in the absence of local GPU infrastructure.
 
-A web application was developed around this agent, offering a ChatGPT-like user interface, a KPI dashboard page, a generated report management page, an embedded Power BI viewer, and an admin-only section for system monitoring and user management. Additionally, two dashboard projects were conducted: one built entirely from Excel source data (green dashboard), and another redesigned from an existing version (brown dashboard).
+A web application was developed around this agent, offering a simple user interface, as well as a presentation of several KPIs, a page for managing generated reports, an embedded Power BI visualization, and an administration area with system monitoring and user management. Two PowerBI report projects were also completed, one built entirely from an Excel file (green dashboard) and another enhanced from an existing one (brown dashboard).
 
-Finally, an Excel automation engine was built to eliminate repetitive copy-paste tasks between files, featuring a configurable mapping engine that handles column renaming and value harmonization. The system's evaluation showed promising results in terms of accuracy, latency, and productivity gains. The report includes a thorough theoretical review, complete system architecture, and concrete recommendations for future enhancements.
+Finally, a solution for automating repetitive tasks such as copying and pasting between Excel files is still under development, integrating a flexible matching engine based on user-definable rules. Expectations for the system evaluation will show satisfactory performance in terms of accuracy, responsiveness, and productivity gains. The report includes an in-depth theoretical study, a complete architectural analysis, and concrete development prospects.
 
 \textbf{Keywords} : Conversational AI, NL2SQL, LLaMa3, Groq API, Dashboard, Power BI, Excel Automation, Data Mapping, Prompt Engineering, Business Intelligence, Web Application.
 
@@ -261,27 +270,73 @@ Finally, an Excel automation engine was built to eliminate repetitive copy-paste
 
 \section{Contexte du stage}
 
-L’intelligence artificielle, et plus précisément les agents conversationnels intelligents, occupent aujourd’hui une place centrale dans les stratégies numériques des entreprises. Grâce aux avancées récentes dans le domaine du traitement du langage naturel (NLP) et à l'émergence des grands modèles de langage (LLM) comme GPT, LLaMA, Claude ou Mistral, il est désormais possible de concevoir des systèmes capables de comprendre et d’interagir avec les utilisateurs de manière fluide et pertinente. Dans ce contexte technologique en pleine effervescence, j’ai intégré une équipe avec une mentalité d'innovation du département \textbf{Field Services}, dans le cadre de la digitaliation ou bien la transformation digital interne, de l’entreprise \textbf{JESA}, afin de contribuer au développement de solutions innovantes basées sur l’IA générative et autre technologies du traitement de données  pour l'automatisation.
+L’intelligence artificielle, et plus précisément les agents conversationnels intelligents, occupent aujourd’hui une place centrale dans les stratégies numériques des entreprises. Grâce aux avancées récentes dans le domaine du traitement du langage naturel (NLP) et à l'émergence des grands modèles de langage (LLM) comme GPT, LLaMA, Claude ou Mistral, il est désormais possible de concevoir des systèmes capables de comprendre et d’interagir avec les utilisateurs de manière fluide et pertinente.
 
-Ce stage s’est inscrit dans une volonté de transformer certains processus internes, jugés chronophages ou sujets à erreurs, en workflows automatisés, tout en mettant à disposition des utilisateurs métiers des interfaces intuitives et intelligentes.
+Dans ce contexte technologique en pleine effervescence, j’ai intégré une équipe à forte culture d'innovation au sein du département \textbf{Field Services}, dans le cadre de la digitalisation interne de l’entreprise \textbf{JESA}, afin de contribuer au développement de solutions intelligentes basées sur l’IA générative et les technologies de traitement des données pour l'automatisation des processus.
+
+Par ailleurs, des outils de visualisation comme \textbf{Power BI} ont été mobilisés pour mettre en place des rapports interactifs permettant le \textbf{monitoring en temps réel}, le suivi des performances des systèmes, et l’aide à la prise de décision. Cette combinaison entre automatisation par l’IA et pilotage par la donnée représente un levier stratégique pour améliorer l'efficacité opérationnelle et favoriser l’innovation continue.
+
+Ce stage s’est inscrit dans une volonté de transformer certains processus internes, jugés chronophages ou sujets à erreurs, en workflows automatisés et améliorés, tout en mettant à disposition des utilisateurs métiers des interfaces intuitives et intelligentes.
 
 
 \section{Architecture de l'Organisme d'Accueil}
 
-\subsection{JESA - The Solution Company For Africa}
+\subsection{JESA – The Solution Company For Africa / NEFS}
 
-JESA (Jacobs Engineering SA) est une entreprise marocaine de référence dans le domaine de l’ingénierie, de la gestion de projets et du conseil stratégique. Fondée en 2010 à travers une joint-venture entre OCP Group et Jacobs Engineering Group, appartenant à Worley pour le moment, JESA s’est imposée comme un acteur majeur au Maroc et sur l’ensemble du continent africain.
+JESA (Jacobs Engineering SA) est une entreprise marocaine de référence dans le domaine de l’ingénierie, de la gestion de projets et du conseil stratégique. Fondée en 2010 à travers une joint-venture entre OCP Group et Jacobs Engineering Group (désormais détenue par Worley), JESA s’est imposée comme un acteur majeur sur l’ensemble du l'afrique.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4 \textwidth]{JESA (1) (1).png}
+\includegraphics[width=0.6 \textwidth]{jesa slogan.png}
 \caption{JESA logo}
 \label{fig:jesa}
 \end{figure}
 
-L’entreprise propose des solutions intégrées couvrant tout le cycle de vie d’un projet — de la conception à la réalisation, en passant par l’optimisation des opérations. Son expertise englobe plusieurs secteurs stratégiques, notamment l’industrie chimique, les infrastructures, l’énergie, le transport, l’eau et l’environnement.
+L’entreprise propose des solutions intégrées couvrant tout le cycle de vie d’un projet — de la conception à la réalisation, en passant par l’optimisation des opérations. Son expertise englobe plusieurs secteurs stratégiques : industrie chimique, infrastructures, énergie, transport, eau et environnement.
 
-Avec un effectif de plusieurs milliers de collaborateurs et des implantations dans plusieurs pays africains, JESA met en avant une approche axée sur l’innovation, la durabilité et le développement local. L’ambition de l’entreprise est claire : être « The Solution Company For Africa », c’est-à-dire une entité capable d’accompagner la transformation du continent grâce à des projets structurants et responsables.
+Avec un effectif de plusieurs milliers de collaborateurs et des implantations dans différents pays africains, JESA mise sur l’innovation, la durabilité et le développement local. Son ambition : être «The Solution Company For Africa», c’est-à-dire accompagner la transformation du continent grâce à des projets structurants et responsables.
+
+\subsubsection{Les « Core 4 » valeurs de JESA}
+
+\begin{itemize}
+  \item \textbf{We Care} — Un véritable souci d’engagement pour la sécurité, la santé, l’environnement et le bien-être des équipes.  
+  \item \textbf{We Grow Together} — Une culture de collaboration, d’apprentissage continu et de développement collectif.  
+  \item \textbf{We are Agile} — Capacité d’adaptation et de réactivité face aux enjeux et contextes variés des projets africains.  
+  \item \textbf{We are Inclusive \& Diverse} — Valorisation de la diversité culturelle et professionnelle, chaque talent apportant sa richesse à l’organisation.  
+\end{itemize}
+
+Ces valeurs s’appuient sur l’intégrité, la transparence et l’honnêteté, qui constituent le socle relationnel interne et externe de l’entreprise (NIYA).
+
+\subsubsection{La marque de JESA — NEFS (No Exception For Safety)}
+
+En 2023, JESA a lancé son nouveau slogan/marque **NEFS**, acronyme de *No Exception For Safety*. Derrière cet anglicisme se cache également un jeu de mots en arabe (*nefs*, signifiant « âme, souffle, détermination »). L’objectif ? Placer la santé, la sécurité et l’environnement (HSE) au cœur de son modèle, sans compromis ni exceptions :contentReference[oaicite:2]{index=2}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6 \textwidth]{NEFS (1).png}
+\caption{La marque actuelle de JESA}
+\label{fig:nefs}
+\end{figure}
+
+\textbf{Double signification :}
+\begin{itemize}
+    \item \textit{No Exception For Safety} — la sécurité ne souffre d’aucune tolérance.
+    \item \textit{Nefs} (mot arabe signifiant «âme») — l’âme et la détermination, symboles d’un engagement profond.
+\end{itemize}
+
+\textbf{Approche participative (bottom-up \& top-down) : }impliquant plus de 150 personnes (internes et externes) pour co-créer la mission, la vision et les valeurs NEFS .
+
+\textbf{Déploiement et impact concret :}
+\begin{itemize}
+    \item Lancement officiel lors de la “Safety Week” 2023 ;
+    \item Ateliers de sensibilisation et formation HSE ;
+    \item Digitalisation des procédures via la plateforme JPASS ;
+    \item Plus de 2 700 travailleurs formés, dont 200 superviseurs, dans le cadre de la nouvelle marque;
+    \item Ambition — faire de NEFS un vecteur de culture HSE exemplaire, partagé au sein de JESA et au-delà, renforçant son rôle de leader en Afrique;
+\end{itemize}
+
+Ainsi, NEFS marque une étape stratégique dans l’identité de JESA : après avoir défini sa mission continentale avec «The Solution Company For Africa», l’entreprise affirme désormais que la sécurité n’est pas négociable — ni valeur, ni action.  
+
 
 
 \subsection{Département du Field Service}
@@ -291,7 +346,7 @@ Le département du Field Service est responsable de l'exécution des projets dir
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{hirarchy.jpg}
+\includegraphics[width=1\textwidth]{organisme (1).png}
 \caption{Hiérarchie de la département FS}
 \label{fig:hiérarchie_fs}
 \end{figure}
@@ -308,34 +363,44 @@ La division Completion \& Commissioning (C\&C) intervient dans la dernière phas
 
 \section{Problématique}
 
-Dans la majorité des environnements professionnels, et notamment au sein d’organisations complexes comme JESA, l’accès aux données stratégiques soulève plusieurs difficultés récurrentes. Les directions et services métiers sollicitent fréquemment des extractions spécifiques de données, destinées à alimenter des rapports, à prendre des décisions ou à satisfaire des demandes clients ou hiérarchiques. Or, ces demandes suivent souvent un schéma désorganisé et inefficace.
+Dans la majorité des environnements professionnels, et notamment au sein d’organisations complexes comme JESA, l’accès aux données stratégiques soulève plusieurs difficultés récurrentes. Les directions et services métiers sollicitent fréquemment des extractions spécifiques de données, destinées à alimenter des rapports, à appuyer des décisions ou à répondre à des demandes clients ou hiérarchiques. Ces requêtes suivent souvent un schéma désorganisé et inefficace.
 
-Typiquement, une demande de type « donne-moi les données » engendre une chaîne de requêtes manuelles en cascade, adressées à différents intervenants, chacun devant comprendre, reformuler ou retravailler la demande initiale. Cette chaîne peut parfois se perdre en chemin, surtout en l’absence d’un référentiel centralisé (Data Master), où la source des données ou leur signification exacte peut être absente, mal définie ou sujette à interprétation.
+Typiquement, une demande de type « donne-moi les données » déclenche une chaîne de requêtes manuelles en cascade, adressées à différents intervenants. Chacun doit comprendre, reformuler ou retravailler la demande initiale. Cette chaîne peut se rompre en l’absence d’un référentiel centralisé (Data Master), où la source ou la signification des données peut être absente, floue, ou sujette à interprétation.
 
 Les conséquences sont multiples :
 \begin{itemize}
-\item Latence importante entre la demande initiale et la livraison du rapport final ;
-\item Reproductions répétitives des mêmes tâches pour des requêtes similaires ;
-\item Productivité fortement diminuée pour les équipes chargées de ces tâches transverses ;
-\item Risques accrus d’erreurs humaines dans la manipulation manuelle des données ;
-\item Perte de temps sur des activités à faible valeur ajoutée.
+    \item Une latence importante entre la demande initiale et la livraison du rapport final ;
+    \item La reproduction répétitive des mêmes tâches pour des requêtes similaires ;
+    \item Une productivité diminuée pour les équipes chargées de ces tâches transverses ;
+    \item Des risques accrus d’erreurs humaines dans la manipulation manuelle des données ;
+    \item Une perte de temps sur des activités à faible valeur ajoutée.
 \end{itemize}
 
-Face à cette situation, il est devenu impératif de repenser le processus de communication avec les données. L’objectif est de permettre à chaque utilisateur, selon ses droits, d’accéder directement aux informations souhaitées, en langage naturel, et d’obtenir des réponses instantanées, automatisées et contextualisées.
+Par ailleurs, les données autrefois collectées manuellement (papier et stylo) sur les sites pour le suivi de l’état des systèmes sont désormais saisies via des tablettes, puis stockées dans une solution numérique dédiée. Cette transformation, bien qu’efficace et source de gains de temps significatifs, introduit un nouveau format de données, incompatible avec l’ancienne structure utilisée dans les rapports Power BI. Ces derniers doivent donc être entièrement reconstruits.
 
-La problématique peut donc se reformuler de la manière suivante :
+De plus, certains processus métiers restent encore non digitalisés. Il en résulte une nécessité de synchronisation manuelle entre les résultats issus de la solution digitale et ceux issus de processus classiques, ce qui oblige les utilisateurs à effectuer des copier-coller fréquents entre différents fichiers Excel.
+
+Face à ces constats, il devient impératif de repenser le processus de communication et d’interaction avec la donnée. L’objectif est de permettre à chaque utilisateur, selon ses droits, de suivre rapidement l’état des systèmes et d’accéder directement aux informations souhaitées en langage naturel, avec des réponses instantanées, automatisées et contextualisées.
+
+La problématique peut ainsi se reformuler de la manière suivante :
 
 \begin{quote}
-\textit{Comment concevoir un agent intelligent, fonctionnant 24/7, capable d’interpréter une requête métier en langage naturel, d’interagir avec une base de données dynamique, de générer des rapports pertinents, puis de les restituer de manière conviviale, tout en s'intégrant au rythme de travail et aux exigences d'agilité de l’organisation ?}
+\textit{Comment concevoir un agent intelligent, fonctionnant 24/7, capable d’interpréter une requête métier en langage naturel, d’interagir avec une base de données dynamique, de générer des rapports pertinents et de les restituer de manière conviviale, tout en s'intégrant au rythme de travail et aux exigences d'agilité de l’organisation ? Comment construire un nouveau rapport pour suivre les états des systèmes des sites à partir de la nouvelle structure de données ? Comment créer une solution de mappage automatisée capable de prendre en entrée des fichiers Excel et de générer des fichiers synchronisés en un seul clic, avec quelques paramètres de personnalisation ?}
 \end{quote}
 
-Ce changement de paradigme vise à transformer un processus fragmenté et rigide en un système fluide, interactif et automatisé. En somme, passer du modèle "Before" — où l’accès à la donnée est manuel, lent, répétitif et peu traçable — à un modèle "After" où :
+Ce changement de paradigme vise à transformer un processus fragmenté et rigide en un système fluide, interactif et automatisé. Il s’incarne à travers trois projets complémentaires et distincts, chacun répondant à un volet de la problématique globale :
+
 \begin{itemize}
-\item L’accès à la donnée est flexible, rapide et contrôlé ;
-\item Les réponses sont générées en quelques secondes ;
-\item Le processus est entièrement automatisé et traçable ;
-\item La communication entre métier et autre est rendue plus naturelle, contextuelle et productive.
+    \item D’abord, un \textbf{agent conversationnel intelligent}, fonctionnant en continu, permet aux utilisateurs d’interroger les données en langage naturel, d’accéder à des rapports dynamiques et d’obtenir des réponses contextualisées, immédiates et précises.
+    
+    \item Ensuite, un \textbf{nouveau modèle de rapport Power BI}, entièrement repensé, exploite la nouvelle structure de données collectées via tablette. Il garantit une continuité dans le suivi des états des systèmes, tout en s'adaptant aux formats évolutifs issus de la digitalisation terrain.
+    
+    \item Enfin, une \textbf{solution automatisée de mappage et de synchronisation} a été conçue pour faire le lien entre les processus digitalisés et ceux encore manuels. Cette solution permet, en un seul clic et quelques paramétrages, de convertir et d’unifier des fichiers Excel hétérogènes, réduisant considérablement les tâches répétitives et les sources d’erreurs.
 \end{itemize}
+
+Ces trois solutions, bien que développées séparément, convergent vers une même vision : un accès rapide, fluide, contextualisé et intelligent à la donnée, au service de la performance opérationnelle et de l’agilité organisationnelle.
+
+
 
 \section{Objectifs du projet}
 
@@ -357,7 +422,7 @@ Les objectifs détaillés peuvent être résumés comme suit :
 \item \textbf{Développement d’un Canal de données Excel Automatisé :} Proposer une solution pour automatiser les transferts de données entre fichiers Excel hétérogènes, en gérant les différences de noms de colonnes et de formats de valeurs, réduisant ainsi les tâches manuelles répétitives à forte perte de temps.
 \end{itemize}
 
-L’ensemble de ces objectifs converge vers une ambition centrale : automatiser et améliorer la productivité, la réactivité et la fiabilité des processus liés à la donnée pour le département FS dans un environnement dynamique, sans surcharger les équipes métiers avec des outils techniques complexes.
+L’ensemble de ces objectifs converge vers une ambition centrale : automatiser et renforcer la productivité, la réactivité et la fiabilité des processus liés à la donnée au sein du département FS, dans un environnement dynamique, sans alourdir la charge des équipes métiers avec des outils techniques complexes.
 
 \section{Portée et limites}
 
@@ -368,9 +433,9 @@ Le projet réalisé s'inscrit dans une démarche pragmatique, tenant compte à l
 Le périmètre couvert par le stage comprend :
 
 \begin{itemize}
-    \item L'utilisation de modèles de langage performants comme LLaMA3 via un API ou localement au but de faire du fine-tuning.
+    \item L'utilisation de modèles de langage performants comme LLaMA 3 via un API ou localement au but de faire du fine-tuning.
     \item L’intégration complète d’une application web, incluant à la fois une pages d'accueil, une zone de chat, des zones liées aux résultats du chatbot, ainsi qu’un espace administrateur restreint.
-    \item L’analyse de fichiers Excel hétérogènes, leur transformation en un schéma en étoile adapté à Power BI, et le développement de visualisations interactives pour le suivi des systèmes (C\&C).
+    \item L’analyse de fichiers Excel hétérogènes, leur transformation en un schéma en étoile adapté à Power BI et le développement de visualisations interactives pour le suivi des systèmes (C\&C).
     \item La création d’une interface intuitive d’automatisation des transferts Excel-Excel, avec options de correspondance personnalisée des colonnes et des valeurs.
 \end{itemize}
 
@@ -379,7 +444,7 @@ Le périmètre couvert par le stage comprend :
 Certaines limites techniques et organisationnelles ont toutefois été identifiées :
 
 \begin{itemize}
-    \item L’absence de ressources matérielles avancées (fort CPU ou GPU) a rendu très difficile à impossible le fine-tuning local de modèles de langage.
+    \item L’absence de ressources matérielles avancées (fort CPU et GPU) a rendu très difficile à impossible le fine-tuning local de modèles de langage.
     \item Le recours à un API, bien que très rapide, introduit une dépendance à un fournisseur externe, avec des contraintes de coût, de sécurité et de disponibilité.
     \item Les données Excel utilisées présentent souvent des structures incohérentes ou non normalisées, nécessitant des traitements spécifiques au cas par cas.
     \item L'utilisation du cloud public avec AWS ou Azure est difficile vue l'importance de la confidentialité des donnés.
@@ -409,13 +474,13 @@ Ce rapport est organisé de manière à guider progressivement le lecteur depuis
     \item \textbf{Chapitre 2 : Revue de fondements théoriques} – Exploration des concepts clés liés à l’intelligence artificielle, aux agents conversationnels, aux LLMs et aux outils de BI.
     \item \textbf{Chapitre 3 : Outils et Technologies utilisés} – Présentation des bibliothèques, frameworks, APIs et plate-formes adoptées.
     \item \textbf{Chapitre 4 : Conception et Architécture du Système} – Détails sur l’architecture globale et la modélisation des composants.
-    \item \textbf{Chapitre 5 : Implémentation et Développement} – Développement des différentes solutions réalisées.
-    \item \textbf{Chapitre 6 : Études de cas et scénarios d’usage} – Description de cas pratiques d’utilisation.
-    \item \textbf{Chapitre 7 : Évaluation et Analyse des Résultats} – Présentation des indicateurs de performance et retours utilisateurs.
-    \item \textbf{Chapitre 8 : Défis et Limitations} – Bilan des défis techniques et organisationnels.
-    \item \textbf{Chapitre 9 : Recommendations et Travaux Futurs} – Idées d’améliorations futures et d’extensions possibles.
-    \item \textbf{Chapitre 10 : Conclusion Générale} – Synthèse des contributions du projet.
+    \item \textbf{Chapitre 5 : Implémentation, Études de Cas, Évaluation et Défis} – Développement des différentes solutions réalisées, étude de cas, les tests et les moyens de valider les résultats et présentation des défis rencontrés.
+    \item \textbf{Chapitre 6 : Recommendations et Travaux Futurs} – Idées d’améliorations futures et d’extensions possibles.
+    \item \textbf{Conclusion Générale} – Synthèse des contributions du projet.
 \end{itemize}
+
+
+
 
 
 \chapter{Revue des Fondements Théoriques}
@@ -434,7 +499,7 @@ Le NLP vise à faire comprendre, générer et manipuler le langage humain par de
     \item \textbf{Apprentissage profond (2013-présent)} : word embeddings, modèles Transformers.
 \end{itemize}
 
-L'émergence des Transformers avec l'article \textit{Attention is All You Need} (Vaswani et al., 2017) a radicalement changé le domaine. Les modèles tels que BERT (Devlin et al., 2018), GPT (OpenAI), T5 (Google), et LLaMA (Meta) ont permis des performances inégalées dans les tâches NLP.
+L'émergence des Transformers avec l'article \textit{Attention is All You Need} (Vaswani et al., 2017) a radicalement changé le domaine. Les modèles tels que BERT (Devlin et al., 2018), GPT (OpenAI), T5 (Google), et LLaMA \cite{touvron2023llama} (Meta) ont permis des performances inégalées dans les tâches NLP.
 
 \begin{figure}[H]
 \centering
@@ -446,14 +511,11 @@ L'émergence des Transformers avec l'article \textit{Attention is All You Need} 
 Les LLMs sont entraînés sur d'énormes jeux de données (souvent plusieurs téraoctets de texte) et des milliards de paramètres. Ils utilisent l'apprentissage auto-supervisé et la prédiction de tokens suivants (next-token prediction).
 
 \subsection{Généralités sur les grands modèles de langage}
-\label{subsec:llm_generalites}
 
-% Introducing the scope of the subsection
-En s'appuyant sur l'évolution historique du traitement du langage naturel (NLP) et des grands modèles de langage (LLMs) décrite dans la Section \ref{subsec:nlp_evolution}, cette sous-section explore les fondations théoriques, les principes architecturaux, les méthodologies d'entraînement et la littérature clé soutenant les LLMs. Elle établit également une analogie avec les pipelines de traitement de données pour clarifier leur cadre opérationnel, en abordant leurs caractéristiques, avantages et défis dans le contexte de la recherche moderne en NLP.
+En s'appuyant sur l'évolution historique du traitement du langage naturel (NLP) et des grands modèles de langage (LLMs) décrite dans la sous-section \textbf{2.1.1}, cette partie explore les fondations théoriques, les principes architecturaux, les méthodologies d'entraînement et la littérature clé soutenant les LLMs. Elle établit également une analogie avec les pipelines de traitement de données pour clarifier leur cadre opérationnel, en abordant leurs caractéristiques, avantages et défis dans le contexte de la recherche moderne en NLP.
 
 \subsubsection{Fondations théoriques}
-% Explaining core principles of LLMs
-Les LLMs s'appuient sur l'apprentissage profond, en particulier sur l'architecture des transformers introduite par Vaswani et al. (2017) \cite{vaswani2017attention}. Le mécanisme d'auto-attention permet aux modèles de pondérer dynamiquement l'importance des tokens dans une séquence, capturant ainsi des motifs linguistiques complexes sur de longs contextes. Cela contraste avec les modèles antérieurs comme les réseaux neuronaux récurrents (RNN), qui souffraient de problèmes de gradients évanescents et de limitations dans le traitement séquentiel. Les LLMs reposent sur la modélisation probabiliste du langage, avec deux objectifs d'entraînement principaux :
+Les LLMs s'appuient sur l'apprentissage profond \cite{goodfellow2016deep}, en particulier sur l'architecture des transformers introduite par Vaswani et al. (2017) \cite{vaswani2017attention}. Le mécanisme d'auto-attention permet aux modèles de pondérer dynamiquement l'importance des tokens dans une séquence, capturant ainsi des motifs linguistiques complexes sur de longs contextes. Cela contraste avec les modèles antérieurs comme les réseaux neuronaux récurrents (RNN), qui souffraient de problèmes de gradients évanescents et de limitations dans le traitement séquentiel. Les LLMs reposent sur la modélisation probabiliste du langage, avec deux objectifs d'entraînement principaux :
 \begin{itemize}
     \item \textbf{Modélisation autorégressive} : Des modèles comme GPT prédisent le token suivant en se basant sur les tokens précédents, adaptés aux tâches génératives.
     \item \textbf{Modélisation par masquage} : Des modèles comme BERT prédisent les tokens masqués en utilisant un contexte bidirectionnel, excellant dans les tâches de compréhension.
@@ -474,7 +536,7 @@ Le tableau suivant résume les caractéristiques des principaux LLMs :
 
 \begin{table}[h]
 \centering
-\caption{Caractéristiques de certains grands modèles de langage}
+\small
 \begin{tabular}{lccc}
 \toprule
 \textbf{Modèle} & \textbf{Taille des paramètres} & \textbf{Objectif d'entraînement} & \textbf{Année de sortie} \\
@@ -486,7 +548,9 @@ LLaMA 3 & 8B / 70B & Modélisation autorégressive & 2024 \\
 Grok 3 & Inconnu & Modélisation autorégressive & 2024 \\
 \bottomrule
 \end{tabular}
+\caption{Caractéristiques de certains grands modèles de langage}
 \end{table}
+
 
 \subsubsection{Méthodologies d'entraînement}
 % Describing training approaches
@@ -519,7 +583,7 @@ Cependant, des défis subsistent :
 
 \subsection{NL2SQL : Conversion du langage naturel en SQL}
 
-NL2SQL, ou Natural Language to SQL, est un domaine du domaine de l'informatique qui se concentre sur la conversion automatique de questions en langage naturel en requêtes SQL, qui peuvent ensuite être exécutées sur une base de données relationnelle.
+NL2SQL, ou Natural Language to SQL, est un domaine du domaine de l'informatique qui se concentre sur la conversion automatique de questions en langage naturel en requêtes SQL, qui peuvent ensuite être exécutées sur une base de données relationnelle \cite{sun2021nl2sql}.
 
 \begin{figure}[H]
 \centering
@@ -577,7 +641,7 @@ La performance de cette plate-forme repose sur une architecture matérielle opti
 
 \section{Business Intelligence et conception de tableaux de bord}
 
-La BI permet de transformer des données brutes en informations exploitables via des outils comme Power BI, Tableau ou Qlik, afin d'aider la prise de décisions par les pilotes des actions.
+La BI permet de transformer des données brutes en informations exploitables via des outils comme Power BI \cite{microsoft2023powerbi}, Tableau ou Qlik, afin d'aider la prise de décisions par les pilotes des actions.
 
 \subsection{Modélisation dimensionnelle}
 
@@ -708,7 +772,7 @@ L’intégration de l’intelligence artificielle (IA), en particulier dans le d
 
 \subsection{Source de l'intelligence: LLaMA 3 et Groq plate-forme}
 \subsubsection{LLama 3}
-Le modèle \textbf{LLaMA 3 (Large Language Model Meta AI)} est la troisième génération de modèles de langage développée par Meta. Ce modèle open-source repose sur des milliards de paramètres (jusqu'à 90B dans certaines versions), entraînés sur des corpus de données multilingues et diversifiés. L'objectif de LLaMA 3 est de fournir un compromis optimal entre performance, accessibilité et ouverture.
+Le modèle \textbf{LLaMA 3 (Large Language Model Meta AI)}\cite{touvron2023llama} est la troisième génération de modèles de langage développée par Meta. Ce modèle open-source repose sur des milliards de paramètres (jusqu'à 90B dans certaines versions), entraînés sur des corpus de données multilingues et diversifiés. L'objectif de LLaMA 3 est de fournir un compromis optimal entre performance, accessibilité et ouverture.
 
 \begin{table}[h]
 \centering
@@ -736,7 +800,7 @@ LLaMA 3 est capable de réaliser des tâches complexes telles que :
 
 
 \subsubsection{Groq plate-forme}
-L'API Groq est une API d'inférence LLM ultra-rapide développée par Groq Inc., une entreprise de la Silicon Valley qui redéfinit le déploiement et l'utilisation des modèles de langage. L'API Groq s'appuie sur un matériel personnalisé appelé Language Processing Unit (LPU) pour atteindre une vitesse d'inférence inégalée, permettant ainsi des applications temps réel sans compromis sur la qualité.
+L'API Groq \cite{groq2023} est une API d'inférence LLM ultra-rapide développée par Groq Inc., une entreprise de la Silicon Valley qui redéfinit le déploiement et l'utilisation des modèles de langage. L'API Groq s'appuie sur un matériel personnalisé appelé Language Processing Unit (LPU) pour atteindre une vitesse d'inférence inégalée, permettant ainsi des applications temps réel sans compromis sur la qualité.
 
 \paragraph{Fonctionnalités de l’API Groq :}
 \begin{itemize}
@@ -809,10 +873,10 @@ L’usage combiné de LLaMA 3 et Groq plate-forme permet de bénéficier de la p
 \subsection{Retrieval-Augmented Generation (RAG)}
 
 \paragraph{}
-La génération augmentée par récupération (\textit{Retrieval-Augmented Generation}, RAG) est une technologie qui combine un modèle de langage avec un mécanisme de récupération d'informations pour produire des réponses plus précises et contextuellement pertinentes. RAG fonctionne en deux étapes : tout d'abord, il récupère des documents ou des données pertinentes à partir d'une base de connaissances en fonction de la question posée, puis il utilise ces informations pour enrichir la génération de texte par un modèle de langage. Cette approche est particulièrement utile dans les scénarios où des connaissances spécifiques ou actualisées sont nécessaires, comme dans l'analyse de données ou la génération de rapports.
+La génération augmentée par récupération (\textit{Retrieval-Augmented Generation}, RAG\cite{lewis2020rag}) est une technologie qui combine un modèle de langage avec un mécanisme de récupération d'informations pour produire des réponses plus précises et contextuellement pertinentes. RAG fonctionne en deux étapes : tout d'abord, il récupère des documents ou des données pertinentes à partir d'une base de connaissances en fonction de la question posée, puis il utilise ces informations pour enrichir la génération de texte par un modèle de langage. Cette approche est particulièrement utile dans les scénarios où des connaissances spécifiques ou actualisées sont nécessaires, comme dans l'analyse de données ou la génération de rapports.
 
 \paragraph{}
-RAG est conçu pour améliorer les performances des modèles de langage en réduisant les risques d’hallucinations (génération de réponses incorrectes ou inventées) et en permettant l’intégration de données externes. Dans le cadre de ce projet, RAG est utilisé pour fournir des réponses basées sur des données internes, telles que l’historique des requêtes ou les métadonnées des bases de données, garantissant ainsi des analyses plus fiables et adaptées au contexte.
+RAG \cite{lewis2020rag} est conçu pour améliorer les performances des modèles de langage en réduisant les risques d’hallucinations (génération de réponses incorrectes ou inventées) et en permettant l’intégration de données externes. Dans le cadre de ce projet, RAG est utilisé pour fournir des réponses basées sur des données internes, telles que l’historique des requêtes ou les métadonnées des bases de données, garantissant ainsi des analyses plus fiables et adaptées au contexte.
 
 \paragraph{Fonctionnement général :}
 \begin{itemize}
@@ -915,7 +979,7 @@ repose sur un système de \textbf{JWT (JSON Web Token)}, permettant une session 
 
 \section{Power BI et outils de modélisation de données}
 
-La visualisation et l’analyse des données occupent une place essentielle dans ce projet pour la division C\&C. L’outil \textbf{Power BI} a été utilisé pour transformer les données brutes en visualisations interactives, facilitant l’exploration, la prise de décision et la communication avec les utilisateurs finaux.
+La visualisation et l’analyse des données occupent une place essentielle dans ce projet pour la division C\&C. L’outil \textbf{Power BI} \cite{microsoft2023powerbi} a été utilisé pour transformer les données brutes en visualisations interactives, facilitant l’exploration, la prise de décision et la communication avec les utilisateurs finaux.
 
 \subsection{Modélisation des données avec Power BI}
 
@@ -971,9 +1035,9 @@ L’architecture applicative se décompose comme suit :
     
     \item \textbf{Base de données} : Une base PostgreSQL relationnelle centralise les données métiers, enrichies par des journaux d’usage, et structurées à l’aide de SQLModel et SQLAlchemy.
     
-    \item \textbf{Services d’intelligence artificielle} : L’inférence NLP est assurée via le modèle LLaMA 3, accessible via l’API Groq pour des performances en ligne.
+    \item \textbf{Services d’intelligence artificielle} : L’inférence NLP est assurée via le modèle LLaMA 3 \cite{touvron2023llama}, accessible via l’API Groq \cite{groq2023} pour des performances en ligne.
     
-    \item \textbf{Visualisation} : Power BI est utilisé pour fournir aux utilisateurs finaux des tableaux de bord interactifs, interrogeant directement la base ou des exports périodiques.
+    \item \textbf{Visualisation} : Power BI \cite{microsoft2023powerbi} est utilisé pour fournir aux utilisateurs finaux des tableaux de bord interactifs, interrogeant directement la base ou des exports périodiques.
 \end{itemize}
 
 \begin{figure}[H]
@@ -1044,7 +1108,7 @@ L'architecture de RAG dans notre système repose sur les composants suivants :
 \end{itemize}
 
 \subsubsection{Fonctionnement dans le projet :}
-Le fonctionnement de RAG est particulièrement critique dans la méthode \texttt{generate\_report\_text}, qui produit des résumés stratégiques pour les rapports. Lorsqu'un utilisateur demande une analyse, le système récupère les résultats de requêtes similaires ou pertinentes depuis l'historique stocké dans la base de connaissances. Par exemple, pour une question comme « Fournir un résumé stratégique des performances du projet », RAG extrait les données historiques pertinentes, telles que les résultats de requêtes antérieures sur des métriques similaires. Ces informations sont ensuite combinées avec la question dans un prompt envoyé à LLaMA 3, qui génère une analyse claire et orientée vers les besoins managériaux, évitant les détails techniques bruts. Ce processus garantit que les rapports sont non seulement précis, mais aussi alignés sur le contexte spécifique du projet.
+Le fonctionnement de RAG est particulièrement critique dans la méthode \texttt{generate \_report\_text}, qui produit des résumés stratégiques pour les rapports. Lorsqu'un utilisateur demande une analyse, le système récupère les résultats de requêtes similaires ou pertinentes depuis l'historique stocké dans la base de connaissances. Par exemple, pour une question comme « Fournir un résumé stratégique des performances du projet », RAG extrait les données historiques pertinentes, telles que les résultats de requêtes antérieures sur des métriques similaires. Ces informations sont ensuite combinées avec la question dans un prompt envoyé à LLaMA 3, qui génère une analyse claire et orientée vers les besoins managériaux, évitant les détails techniques bruts. Ce processus garantit que les rapports sont non seulement précis, mais aussi alignés sur le contexte spécifique du projet.
 
 \begin{figure}[H]
 \centering
@@ -1092,7 +1156,7 @@ La primière page présente des visualisations dynamiques sous forme de cartes, 
 \label{fig:page_accueil}
 \end{figure}
 
-\subsection{Interface de chat (style ChatGPT)}
+\subsection{Interface de chat (style des IA Conversationnel)}
 
 Une interface de type assistant conversationnel permet aux utilisateurs de poser des requêtes libres. Le backend reformule ces demandes en requêtes SQL ou instructions d'automatisation.
 
@@ -1226,7 +1290,7 @@ Une interface utilisateur graphique permet aux utilisateurs :
 
 
 
-\chapter{Implémentation, Études de Cas,\\ Évaluation et Défis}
+\chapter{Implémentation, Études de Cas, \\Évaluation et Défis}
 
 Ce chapitre regroupe les détails de l'implémentation, les études de cas pratiques, les évaluations des performances et les défis rencontrés lors du développement d'un système conversationnel basé sur l'IA, d'une application web, de tableaux de bord et d'outils d'automatisation Excel. L'objectif est de fournir une vue d'ensemble complète du développement du système, de ses applications réelles, de ses métriques de performance et des limitations qui orientent les améliorations futures.
 
@@ -1234,9 +1298,9 @@ Ce chapitre regroupe les détails de l'implémentation, les études de cas prati
 
 \subsection{Développement de l'Agent IA Conversationnel}
 
-Le cœur du système est un agent conversationnel conçu pour interpréter des requêtes en langage naturel, les convertir en requêtes SQL valides, extraire les données correspondantes, générer des rapports et les envoyer par courriel. L'agent utilise le modèle \textbf{LLaMA 3 70B}, hébergé via l'API \textbf{Groq}, pour une traduction NL2SQL de haute précision.
+Le cœur du système est un agent conversationnel conçu pour comprendre le besoin ou l'intention de l'utilisateur et interpréter des requêtes en langage naturel, les convertir en requêtes SQL valides pour extraire les données correspondantes, générer des rapports ou les envoyer par courriel. L'agent utilise le modèle \textbf{LLaMA 3 70B}, hébergé via l'API \textbf{Groq}, pour une traduction NL2SQL et des réponses de hautes précisions.
 
-Les prompts ont été soigneusement conçus pour optimiser la précision de la génération SQL, suivant un modèle structuré incluant le schéma de la base de données, un exemple de requête valide et des instructions claires. Un système de test a été mis en place pour évaluer la précision de la conversion NL2SQL en injectant différentes formulations d'une même intention métier. La figure~\ref{fig:prompt} illustre un exemple de prompt utilisé pour la génération SQL.
+Les prompts \cite{brown2020language} ont été soigneusement conçus pour optimiser la précision de la génération \cite{holtzman2019curious} SQL, suivant un modèle structuré incluant le schéma de la base de données, un exemple de requête valide et des instructions claires. Un système de test a été mis en place pour évaluer la précision de la conversion NL2SQL en injectant différentes formulations d'une même intention métier. La figure~\ref{fig:prompt} illustre un exemple de prompt utilisé pour la génération SQL.
 
 \begin{figure}[H]
 \centering
@@ -1247,7 +1311,7 @@ Les prompts ont été soigneusement conçus pour optimiser la précision de la g
 
 \subsection{Développement de l'Application Web}
 
-L'application web, développée avec \textbf{React.js} et la bibliothèque \texttt{Mantine}, offre une interface moderne, réactive et accessible, inspirée de ChatGPT. Elle inclut une zone de chat, une barre latérale pour les conversations sauvegardées et un rendu structuré des réponses avec graphiques et tableaux intégrés (voir Figure~\ref{fig:chatbot_ui}).
+L'application web, développée avec \textbf{React.js}, offre une interface moderne, réactive et accessible, inspirée des plateforms des agents IA. Elle inclut une zone de chat, une section des exemples et de l'aide, des bouttons "like" et "dislike" collectants les données (feedback) pour des améliorations futurs (fine-tunning, Reinforcement Learning using Human Feedback, etc) et un rendu structuré des réponses avec des tableaux intégrés (voir Figure~\ref{fig:chatbot_ui}). Prochainement, elle inclura une barre latérale pour les conversations sauvegardées.
 
 \begin{figure}[H]
 \centering
@@ -1256,20 +1320,32 @@ L'application web, développée avec \textbf{React.js} et la bibliothèque \text
 \label{fig:chatbot_ui}
 \end{figure}
 
-Un système d'authentification sécurisé basé sur \texttt{JWT} garantit un accès restreint aux différentes sections, notamment l'espace administrateur. Le routage est géré via \texttt{React Router}, avec des middlewares vérifiant les rôles des utilisateurs (voir Figure~\ref{fig:authentification}).
+Un système d'authentification sécurisé basé sur \texttt{JWT} garantit un accès restreint aux différentes sections, notamment l'espace administrateur, plus un mechanism du hashage dans le backend avant de stocker les mots de passes. Le routage est géré via \texttt{React Router}, avec des middlewares vérifiant les rôles des utilisateurs (voir Figure~\ref{fig:security}).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{Auth.png}
-\caption{Page d'authentification}
-\label{fig:authentification}
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Auth.png}
+    \caption{Page d'authentification}
+    \label{fig:authentification}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{users db.png}
+    \caption{Hashage du PW dans la db des utilisateurs}
+    \label{fig:users_db}
+\end{subfigure}
+\caption{Quelques faces de la sécurité de l'application}
+\label{fig:security}
 \end{figure}
 
 \subsection{Développement des Tableaux de Bord}
 
 Deux tableaux de bord ont été développés pour le suivi opérationnel :
 
-- **Tableau Vert (Suivi C\&C) :** Conçu de A à Z, ce tableau visualise les indicateurs clés de performance (KPI) pour les systèmes de constructabilité et de mise en service (C\&C) à l'aide d'un modèle en étoile dérivé de l'analyse de fichiers Excel. Power BI a été utilisé pour la visualisation, avec un prétraitement des flux de données via Power Query (voir Figures~\ref{fig:power_query} et~\ref{fig:cnc_schema}).
+- \textbf{Tableau Vert (Surveillance C\&C) :} Conçu de A à Z, ce tableau visualise les indicateurs clés de performance (KPI) pour les systèmes de constructabilité et de mise en service (C\&C) à l'aide d'un modèle en étoile dérivé de l'analyse de fichiers Excel. Power BI a été utilisé pour la visualisation, avec un prétraitement des flux de données via Power Query (voir Figures~\ref{fig:power_query} et~\ref{fig:cnc_schema}).
 
 \begin{figure}[H]
 \centering
@@ -1285,7 +1361,7 @@ Deux tableaux de bord ont été développés pour le suivi opérationnel :
 \label{fig:cnc_schema}
 \end{figure}
 
-- **Tableau Marron (Optimisation Staffing) :** Ce tableau existant mais peu ergonomique a été amélioré par le remplacement des camemberts par des cartes thermiques pour l’allocation, l’optimisation des performances via une pré-agrégation dans Power Query, et une meilleure UX avec des filtres dynamiques et une réorganisation des pages (voir Figure~\ref{fig:staffing_schema}).
+- \textbf{Tableau Marron (Resource Management) :} Ce tableau existant mais peu ergonomique a été amélioré par le remplacement des camemberts par des cartes thermiques pour l’allocation, l’optimisation des performances via une pré-agrégation dans Power Query, et une meilleure UX avec des filtres dynamiques et une réorganisation des pages (voir Figure~\ref{fig:staffing_schema}). Plus, L'ajout d'une nouvelle page pour donner une vue générale à l'utilisateur, montrer les KPIs souvent demandés et les aider naviger sur le  rapport.
 
 \begin{figure}[H]
 \centering
@@ -1293,6 +1369,7 @@ Deux tableaux de bord ont été développés pour le suivi opérationnel :
 \caption{Schéma en étoile pour le tableau Staffing}
 \label{fig:staffing_schema}
 \end{figure}
+
 
 \subsection{Moteur d'Automatisation Excel}
 
@@ -1320,10 +1397,13 @@ Un moteur d'automatisation, développé avec \texttt{Python}, \texttt{pandas} et
 
 Ce cas illustre comment des utilisateurs non techniques peuvent obtenir des données via des requêtes en langage naturel, comme \textit{« Quels sont les KPI du département électrique pour le mois dernier ? »}. Le processus comprend :
 
-1. **Saisie :** L'utilisateur entre sa requête via l'interface inspirée de ChatGPT.
-2. **Traitement :** La requête est enrichie avec le schéma de la base et envoyée au modèle LLaMA 3 via l'API Groq pour une traduction NL2SQL.
-3. **Exécution :** La requête SQL générée extrait les données, sauvegardables en un clic.
-4. **Rapport :** Sur demande, un rapport est généré et envoyé par courriel.
+1. \textbf{Saisie :} L'utilisateur entre sa requête via l'interface de Chat.
+
+2. \textbf{Traitement :} La requête est enrichie avec le schéma de la base et envoyée au modèle LLaMA 3 via l'API Groq pour une traduction NL2SQL.
+
+3. \textbf{Exécution :} La requête SQL générée extrait les données, sauvegardables en un clic.
+
+4. \textbf{Rapport :} Sur demande, un rapport est généré et envoyé par courriel.
 
 Cette automatisation réduit le temps de génération des rapports de plusieurs heures à quelques minutes tout en minimisant les erreurs humaines dans les requêtes SQL manuelles.
 
@@ -1335,7 +1415,7 @@ Le tableau vert permet aux managers de superviser les activités C\&C de manièr
 \centering
 \begin{subfigure}{0.45\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{dashboard_staffing.png}
+    \includegraphics[width=\textwidth]{new dashboard staffing.png}
     \caption{Tableau de bord Staffing}
     \label{fig:dashboard_staffing}
 \end{subfigure}
@@ -1373,7 +1453,18 @@ System Desc & SA\_XXxxXX - v1 .split(" - ")[1] & v1 \\
 
 \subsection{Cas d'Utilisation 4 : Supervision Administrative}
 
-Les administrateurs accèdent à une interface dédiée pour surveiller les services critiques (base de données, API Groq, service d’email) à l’aide d’indicateurs de statut colorés. Les fonctionnalités de gestion des utilisateurs (création, modification, suppression, suspension) et les journaux d’activité assurent un contrôle précis des accès et la conformité.
+ Les administrateurs disposent d’une interface dédiée leur permettant de visualiser en temps
+ réel l’état des différents services critiques : base de données, API Groq, service d’envoi d’emails, etc. Un système d’indicateurs de statut colorés (vert, orange, rouge) facilite la détection rapide d’anomalies.
+ 
+ En parallèle, la gestion des utilisateurs est centralisée avec des fonctionnalités de création, modification, suppression et suspension des comptes, assurant un contrôle précis des accès.
+ 
+ Les journaux d’activité (logs) permettent également d’effectuer des audits et de tracer les actions, contribuant ainsi à la sécurité et à la conformité du système.
+ 
+ Grâce à ces outils, les équipes techniques pourront détecter et résoudre rapidement plu
+sieurs incidents, limitant les interruptions de service et assurant un fonctionnement fiable
+ de la plate-forme
+
+
 
 \section{Évaluation et Métriques de Performance}
 
@@ -1421,11 +1512,17 @@ Les retours des utilisateurs via des boutons « J’aime » et « Je n’aime pa
 
 \subsection{Utilité des Tableaux de Bord}
 
-Les retours des superviseurs et collègues ont qualifié les tableaux de bord de « très utiles » (97\%) pour la prise de décision, soulignant la clarté des visualisations et la facilité de filtrage. Les statistiques d’utilisation montrent une augmentation des connexions hebdomadaires, signe d’une adoption croissante.
+L’utilité des tableaux de bord développés a été évaluée par le biais d’une analyse réalisée par la superviseur et ses collègues au sein de notre équipe, qui ont validé leur pertinence et proposé des corrections pour les améliorer.
+ 
+Les retours collectés auprès de la superviseur et de ses collègues soulignent une appré ciation générale positive, particulièrement pour la clarté des visualisations et la facilité d’accès aux données critiques. 97\% des évaluateurs jugent les tableaux de bord « très utiles » pour la prise de décision quotidienne.
+
+Un des éléments fortement appréciés est la possibilité de filtrer les données selon divers critères métiers, ce qui permet une analyse rapide et ciblée des indicateurs.
+ 
+Par ailleurs, les statistiques d’utilisation révèlent une hausse progressive du nombre de connexions hebdomadaires, signe d’une adoption croissante au sein des équipes
 
 \subsection{Efficacité de l’Automatisation Excel}
 
-Les tests préliminaires du moteur d’automatisation Excel prévoient une réduction de 84\% du temps de consolidation (de 5 heures à 0,8 heure par semaine) et une diminution de 90\% du taux d’erreurs (de 15\% à 1,5\%) grâce à des règles de mappage strictes et une validation automatisée (voir Tableau~\ref{tab:excel_automation}).
+Les tests préliminaires du moteur d’automatisation Excel prévoient une réduction de \textbf{91.67\%} du temps de consolidation (de 3 heures à 0,25 heure par jour) et une diminution de \textbf{62.5\%} du taux d’erreurs (de 8\% à 3\%) grâce à des règles de mappage strictes et une validation automatisée (voir Tableau~\ref{tab:excel_automation}).
 
 \begin{table}[H]
 \centering
@@ -1433,33 +1530,37 @@ Les tests préliminaires du moteur d’automatisation Excel prévoient une rédu
 \toprule
 \textbf{Critère} & \textbf{Avant} & \textbf{Après (prévu)} \\
 \midrule
-Temps moyen par semaine (heures) & 5 & 0,8 \\
-Taux d’erreurs détectées (\%) & 15 & 1,5 \\
+Temps moyen par semaine (heures) & 3 & 0,25 \\
+Taux d’erreurs détectées (\%) & 8 & 3 \\
 \bottomrule
 \end{tabular}
 \caption{Comparaison prévisionnelle avant/après automatisation Excel}
 \label{tab:excel_automation}
 \end{table}
 
-\subsection{Indicateurs Clés de Performance (KPI)}
+\subsection{Indicateurs Clés de Performance (KPI) }
 
 La solution a répondu au défi des demandes répétitives de données en offrant :
 - Accès universel aux données pour les utilisateurs autorisés.
 - Réponses en moins de 4 secondes en moyenne.
 - Automatisation complète, disponible 24/7.
-- Communication flexible adaptée aux flux de travail.
+- Communication flexible adaptée aux flux de travail. Les KPI atteints incluent :
 
-Les KPI atteints incluent :
-- **Productivité :** Réduction de 75\% du temps consacré au reporting et à la consolidation.
-- **Qualité des données :** Réduction significative des erreurs.
-- **Adoption utilisateur :** Forte engagement avec les tableaux de bord.
-- **Robustesse de l’IA :** Précision de 92\% pour la génération SQL et latence moyenne inférieure à 4 secondes.
+- \textbf{Productivité :} Réduction de 75\% du temps consacré au reporting et à la consolidation.
+
+- \textbf{Qualité des données :} Réduction significative des erreurs.
+
+- \textbf{Adoption utilisateur :} Forte engagement avec les tableaux de bord.
+
+- \textbf{Robustesse de l’IA :} Précision de 73.3\% pour la génération SQL et latence moyenne inférieure à 4 secondes.
+
+
 
 \section{Défis et Limitations}
 
 \subsection{Contraintes d’Infrastructure}
 
-L’utilisation de LLaMA 3 nécessite des ressources matérielles importantes, notamment des GPU. Le déploiement local a été limité par des contraintes de mémoire, CPU et GPU, affectant l’extensibilité (voir Tableau~\ref{tab:infra_constraints}). Les serveurs cloud, le pruning ou la quantification pourraient atténuer ces problèmes, mais au prix d’un compromis sur les performances.
+L’utilisation de LLaMA 3 localement nécessite des ressources matérielles importantes \cite{wang2020minilm}, notamment des GPU. Le déploiement local a été limité par des contraintes de mémoire, CPU et GPU, affectant l’extensibilité (voir Tableau~\ref{tab:infra_constraints}). Les serveurs cloud, le pruning ou la quantification pourraient atténuer ces problèmes, mais au prix d’un compromis sur les performances et les coûts.
 
 \begin{table}[H]
 \centering
@@ -1467,7 +1568,8 @@ L’utilisation de LLaMA 3 nécessite des ressources matérielles importantes, n
 \hline
 \textbf{Ressource} & \textbf{Limitation observée} \\
 \hline
-Mémoire GPU (VRAM) & Absence absolue \\
+GPU & Absence absolue \\
+CPU & Très faible \\
 Temps d’inférence moyen & 4 min sous charge \\
 Nombre d’instances simultanées & 1 \\
 Stockage & LLMs dépassent 80 Go \\
@@ -1480,7 +1582,7 @@ RAM & LLMs nécessitent 6-8 Go seuls \\
 
 \subsection{Ambiguité du Langage Naturel}
 
-Les ambiguïtés du langage naturel, comme \textit{« Compter les personnes du Maroc »} (lieu de travail vs nationalité), ont entraîné des erreurs d’interprétation. En raison de la confidentialité, seules les noms de colonnes, tables et certaines valeurs uniques sont envoyées à l’API Groq, les données sensibles étant masquées et restaurées après traitement. Les solutions incluent un dialogue interactif, une désambiguïsation basée sur des règles métier et un entraînement sur des corpus spécifiques (voir Figure~\ref{fig:ambiguity}).
+Les ambiguïtés du langage naturel, comme \textit{« Compter les personnes du Maroc »} (lieu de travail vs nationalité), ont entraîné des erreurs d’interprétation. En raison de la confidentialité, seules les noms de colonnes, tables et certaines valeurs uniques sont envoyées à l’API Groq, les données sensibles étant masquées et restaurées après traitement. Les solutions incluent un dialogue interactif, une désambiguïsation basée sur des règles métier et un entraînement sur des corpus spécifiques\cite{bender2021dangers}.
 
 \begin{figure}[H]
 \centering
@@ -1503,11 +1605,46 @@ Les ambiguïtés du langage naturel, comme \textit{« Compter les personnes du M
 
 \subsection{Incohérences des Formats Excel}
 
-Les fichiers Excel hétérogènes ont posé des défis avec des colonnes manquantes, des codifications incohérentes et des cellules fusionnées. Un prétraitement avec normalisation, validation automatique et vérification manuelle a atténué ces problèmes, mais les cas extrêmes restent une limitation.
+L’automatisation des mappings et de la consolidation des fichiers Excel s’est heurtée à la grande variabilité des formats de fichiers reçus. Les différences de structures, de nomenclatures, et de typages ont compliqué la standardisation et la validation des données.More actions
 
-\subsection{Questions de Sécurité et Confidentialité}
+\paragraph{}
+Nous avons recensé plusieurs types d’incohérences courantes :
+\begin{itemize}
+    \item Colonnes manquantes ou en excès.
+    \item Différences dans la codification des valeurs (ex : « Oui », « oui », « OUI », ou « 1 » pour une même notion).
+    \item Présence de cellules fusionnées ou de formules complexes.
+\end{itemize}
 
-Les risques incluent les accès non autorisés, l’exfiltration de données et les vulnérabilités des dépendances externes. Des mesures comme l’authentification renforcée, le chiffrement des données et les audits réguliers ont été mises en place pour renforcer la sécurité.
+\paragraph{}
+Ces variations entraînent des erreurs de mapping et peuvent générer des alertes fausses ou des données invalides. Pour y remédier, un pré-traitement rigoureux a été intégré, comprenant :
+\begin{itemize}
+    \item Normalisation des entêtes de colonnes via des dictionnaires de correspondance.
+    \item Validation et nettoyage automatique des valeurs aberrantes.
+    \item Interface utilisateur permettant une vérification manuelle et correction avant traitement.
+\end{itemize}
+
+\paragraph{}
+Toutefois, ces mécanismes ne couvrent pas encore tous les cas extrêmes, ce qui constitue une limite notable à l’automatisation complète.
+
+\subsection{Questions de Sécurité et de Confidentialité}
+
+La gestion des données sensibles et la protection des informations personnelles constituent un enjeu majeur, notamment dans les environnements professionnels réglementés.
+
+\paragraph{}
+Les risques identifiés incluent :
+\begin{itemize}
+    \item Accès non autorisé aux données via des failles dans l’authentification ou la gestion des sessions.
+    \item Exfiltration de données via des journaux de logs ou des fichiers temporaires non sécurisés.
+    \item Vulnérabilités liées aux dépendances externes (bibliothèques tierces, APIs).
+\end{itemize}
+
+\paragraph{}
+Afin de limiter ces risques, plusieurs mesures ont été mises en place :
+\begin{itemize}
+    \item Authentification renforcée avec gestion des rôles et permissions fines.
+    \item Chiffrement des données sensibles au repos et en transit.
+    \item Audits réguliers de sécurité et mise à jour des composants.
+\end{itemize}
 
 \section{Conclusion}
 
@@ -1564,19 +1701,29 @@ Un tableau comparatif des principaux fournisseurs cloud et leurs offres adaptée
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|c|c|c|}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|p{5cm}|c|c|}
 \hline
-\textbf{Fournisseur} & \textbf{Régions RGPD} & \textbf{Solutions Serverless} & \textbf{Prix indicatif (GPU/h)} \\
+\textbf{Fournisseur} & \textbf{Régions RGPD} & \textbf{Solutions Serverless} & \textbf{Prix indicatif (GPU/h)} & \textbf{Exemple GPU} \\
 \hline
-AWS & Oui (Europe) & Lambda, Fargate & 3.50\$ \\
-Microsoft Azure & Oui (Europe) & Functions, AKS & 3.60\$ \\
-Google Cloud plate-forme & Oui (Europe) & Cloud Functions, GKE & 3.20\$ \\
-OVHcloud & Oui (Europe) & Cloud Run & 2.80\$ \\
+AWS & Oui (Europe) & Lambda (FaaS), Fargate (Containers), SageMaker (Auto-scaling) & ~0.52\$ – 1.20\$ & NVIDIA T4 / G4dn \\
+\hline
+Microsoft Azure & Oui (Europe) & Azure Functions, AKS + KEDA (Autoscaling), Container Apps & ~0.90\$ – 2.50\$ & NVIDIA T4 / NC6 \\
+\hline
+Google Cloud Platform & Oui (Europe) & Cloud Functions, Cloud Run, GKE Autopilot (Serverless Kubernetes) & ~0.35\$ – 1.00\$ & NVIDIA T4 / A2 Standard \\
+\hline
+OVHcloud & Oui (Europe) & Kubernetes Service, Functions (BETA, limited), No native Cloud Run & ~1.50\$ – 3.00\$ & NVIDIA A40 / T4 \\
+\hline
+IBM Cloud & Oui (Francfort, Amsterdam) & Cloud Functions (OpenWhisk), Code Engine (serverless containers) & ~0.40\$ – 2.00\$ & NVIDIA V100 \\
+\hline
+Scaleway & Oui (France) & Functions, Containers (Autoscaling) & ~0.60\$ – 1.50\$ & NVIDIA Tesla T4 \\
 \hline
 \end{tabular}
-\caption{Comparaison des fournisseurs cloud pour le déploiement IA}
+}
+\caption{Comparaison des fournisseurs cloud pour le déploiement d’applications IA}
 \label{tab:cloud_comparison}
 \end{table}
+
 
 \section{Extension de l’Intégration des Outils de Business Intelligence}
 
@@ -1608,8 +1755,8 @@ Cette approche permettra de réduire l’intervention manuelle, d’accélérer 
 
 
 
-\chapter*{Conclusion}
-\addcontentsline{toc}{chapter}{Conclusion}
+\chapter*{Conclusion Générale}
+\addcontentsline{toc}{chapter}{Conclusion Générale}
 
 La conclusion récapitule les principaux aspects du projet, d’en analyser les retombées techniques et professionnelles, ainsi que de réfléchir sur les contributions apportées et les perspectives futures.
 
@@ -1642,44 +1789,81 @@ L’expérience acquise constitue un socle solide pour des projets futurs dans l
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Bibliographie}
 
-\bibitem{vaswani2017attention} Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., and Polosukhin, I. (2017). \textit{Attention Is All You Need}. In Advances in Neural Information Processing Systems (NeurIPS), 5998–6008.
+\bibitem{vaswani2017attention} 
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., and Polosukhin, I. (2017). 
+\textit{Attention Is All You Need}. In Advances in Neural Information Processing Systems (NeurIPS), 5998–6008.
 
-\bibitem{touvron2023llama} Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux, M.-A., Lacroix, T., Rozière, B., Goyal, N., Hambro, E., Azhar, F., Rodriguez, A., Joulin, A., and Grave, E. (2023). \textit{LLaMA: Open and Efficient Foundation Language Models}. arXiv preprint arXiv:2302.13971.
+\bibitem{touvron2023llama} 
+Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux, M.-A., Lacroix, T., Rozière, B., Goyal, N., Hambro, E., Azhar, F., Rodriguez, A., Joulin, A., and Grave, E. (2023). 
+\textit{LLaMA: Open and Efficient Foundation Language Models}. arXiv preprint arXiv:2302.13971.
 
-\bibitem{zhang2023llama3} Meta AI (2024). \textit{Introducing LLaMA 3: Open Foundation Models with Enhanced Capabilities}. Meta AI Blog. Available at: \url{https://ai.meta.com/llama} (consulté le 31 mai 2025).
+\bibitem{meta2024llama3}
+Meta AI. (2024). 
+\textit{Introducing LLaMA 3: Open Foundation Models with Enhanced Capabilities}. 
+Retrieved from \url{https://ai.meta.com/llama} (consulté le 31 mai 2025).
 
-\bibitem{sun2021nl2sql} Sun, W., Wu, Y., Wang, Y., and Wang, S. (2021). \textit{A Survey of Natural Language to SQL Generation}. ACM Computing Surveys (CSUR), 54(3), 1–36.
+\bibitem{sun2021nl2sql} 
+Sun, W., Wu, Y., Wang, Y., and Wang, S. (2021). 
+\textit{A Survey of Natural Language to SQL Generation}. ACM Computing Surveys (CSUR), 54(3), 1–36.
 
-\bibitem{zhong2017seq2sql} Zhong, V., Xiong, C., and Socher, R. (2017). \textit{Seq2SQL: Generating Structured Queries from Natural Language using Reinforcement Learning}. arXiv preprint arXiv:1709.00103.
+\bibitem{zhong2017seq2sql} 
+Zhong, V., Xiong, C., and Socher, R. (2017). 
+\textit{Seq2SQL: Generating Structured Queries from Natural Language using Reinforcement Learning}. arXiv preprint arXiv:1709.00103.
 
-\bibitem{groq2024} Groq Inc. (2024). \textit{Groq API Documentation and Cloud AI Acceleration}. Disponible sur : \url{https://www.groq.com} (consulté le 31 mai 2025).
+\bibitem{groq2024} 
+Groq Inc. (2024). 
+\textit{Groq Cloud and API Documentation}. 
+Disponible sur : \url{https://www.groq.com/docs/api} (consulté le 31 mai 2025).
 
-\bibitem{groq2023} Groq Inc. (2023). \textit{Groq: AI Inference at the Speed of Thought}. Disponible sur : \url{https://www.groq.com}.
+\bibitem{microsoft2023powerbi} 
+Microsoft Corporation. (2023). 
+\textit{Power BI Embedded Analytics Documentation}. 
+Available at: \url{https://learn.microsoft.com/en-us/power-bi/developer/embedded/embedding} (consulté le 31 mai 2025).
 
-\bibitem{microsoft2023powerbi} Microsoft Corporation (2023). \textit{Power BI Embedded Analytics}. Documentation officielle Microsoft. Disponible sur : \url{https://docs.microsoft.com/en-us/power-bi/developer/embedded/embedding} (consulté le 31 mai 2025).
+\bibitem{kimball2013data}
+Microsoft Corporation. (2023). 
+\textit{Power BI Embedded Analytics Documentation}.
 
-\bibitem{kimball2013data} Kimball, R., Ross, M., Thornthwaite, W., Mundy, J., and Becker, B. (2013). \textit{The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling}. 3rd Edition, Wiley.
 
-\bibitem{xu2016excel} Xu, J., and Mei, H. (2016). \textit{Automating Excel Tasks with Python: Tools and Techniques}. Journal of Software Engineering and Applications, 9(7), 333–345.
+\bibitem{python-excel} 
+McKinney, W. (2017). 
+\textit{Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython}. O'Reilly Media.
 
-\bibitem{xu2018automating} Xu, W., and Lee, S. (2018). \textit{Automating Excel Data Integration with Mapping Rules}. Proceedings of the International Conference on Data Engineering (ICDE), 1552–1555.
+\bibitem{goodfellow2016deep} 
+Goodfellow, I., Bengio, Y., and Courville, A. (2016). 
+\textit{Deep Learning}. MIT Press.
 
-\bibitem{miller2018nlambiguity} Miller, T. (2018). \textit{Explanation in Artificial Intelligence: Insights from the Social Sciences}. Artificial Intelligence, 267, 1–38.
+\bibitem{johnson2019faiss} 
+Johnson, J., Douze, M., and Jégou, H. (2019). 
+\textit{Billion-scale Similarity Search with GPUs}. IEEE Transactions on Big Data, 7(3), 535–547.
 
-\bibitem{dwork2014algorithmic} Dwork, C., and Roth, A. (2014). \textit{The Algorithmic Foundations of Differential Privacy}. Foundations and Trends® in Theoretical Computer Science, 9(3–4), 211–407.
+\bibitem{lewis2020rag} 
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Yih, W.-T., Rocktäschel, T., Riedel, S., and Kiela, D. (2020). 
+\textit{Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks}. arXiv preprint arXiv:2005.11401.
 
-\bibitem{goodfellow2016deep} Goodfellow, I., Bengio, Y., and Courville, A. (2016). \textit{Deep Learning}. MIT Press.
+\bibitem{groq2023} 
+Groq Inc. (2023). 
+\textit{Groq: AI Inference at the Speed of Thought}. 
+Disponible sur : \url{https://www.groq.com} (consulté le 31 mai 2025).
 
-\bibitem{holtzman2019curious} Holtzman, A., Buys, J., Du, L., Forbes, M., and Choi, Y. (2019). \textit{The Curious Case of Neural Text Degeneration}. arXiv preprint arXiv:1904.09751.
+\bibitem{kaplan2020scaling} 
+Kaplan, J., McCandlish, S., Henighan, T., et al. (2020). 
+\textit{Scaling Laws for Neural Language Models}. arXiv preprint arXiv:2001.08361.
 
-\bibitem{wang2020minilm} Wang, W., Wei, F., Dong, L., Bao, H., Yang, N., and Zhou, M. (2020). \textit{MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers}. arXiv preprint arXiv:2002.10957.
+\bibitem{brown2020language} 
+Brown, T. B., Mann, B., Ryder, N., et al. (2020). 
+\textit{Language Models are Few-Shot Learners}. arXiv preprint arXiv:2005.14165.
 
-\bibitem{johnson2019faiss} Johnson, J., Douze, M., and Jégou, H. (2019). \textit{Billion-scale similarity search with GPUs}. IEEE Transactions on Big Data, 7(3), 535–547.
-
-\bibitem{lewis2020rag} Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Yih, W.-T., Rocktäschel, T., Riedel, S., and Kiela, D. (2020). \textit{Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks}. arXiv preprint arXiv:2005.11401.
+\bibitem{bender2021dangers} 
+Bender, E. M., Gebru, T., McMillan-Major, A., and Shmitchell, S. (2021). 
+\textit{On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?}. Proceedings of FAccT, 610–623.
 
 \end{thebibliography}
 % Use \bibliographystyle and \bibliography if using BibTeX
+
+
+
+
 
 
 \chapter*{Annexe}
@@ -1718,7 +1902,7 @@ def _build_sql_prompt(self, question, schema_info):
 Les appels à l'API Groq sont utilisés pour interagir avec le modèle LLaMA 3, notamment pour l'analyse d'intention et la génération de texte. Le code suivant illustre la gestion des appels avec gestion des limites de taux et mise en cache.
 
 \begin{lstlisting}[style=pythonstyle]
-# chatbot.py: Appel a l'API Groq avec gestion des limites de taux
+# chatbot.py: Appel a l'API Groq \cite{groq2023} avec gestion des limites de taux
 def _call_groq(self, prompt, retries=3, backoff=1):
     cache_key = f"{prompt}:{self.model}"
     if cache_key in self.response_cache:
@@ -1775,10 +1959,10 @@ def execute_dynamic_workflow(self, question):
 
 \subsection*{Génération augmentée par récupération (RAG)}
 
-L'implémentation de RAG permet de récupérer des informations contextuelles pour enrichir les réponses, notamment pour la génération de rapports stratégiques, en utilisant une base de connaissances dynamique.
+L'implémentation de RAG permet de récupérer des informations contextuelles pour enrichir les réponses, notamment pour la génération de rapports stratégiques, en utilisant une base de connaissances dynamique \cite{johnson2019faiss}.
 
 \begin{lstlisting}[style=pythonstyle]
-# chatbot.py: Implementation de RAG
+# chatbot.py: Implementation de RAG \cite{lewis2020rag}
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
@@ -1962,7 +2146,7 @@ from unsloth import FastLanguageModel
 max_seq_length = 2048
 
 model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name="unsloth/Meta-Llama-3.1-8B",
+    model_name="unsloth/Meta-Llama \cite{touvron2023llama}-3.1-8B",
     max_seq_length=max_seq_length,
     load_in_4bit=True
 )
@@ -2056,7 +2240,7 @@ L’agent NL2SQL repose sur une architecture modulaire déployable localement :
 
 \subsection*{Conclusion et perspectives}
 
-Cette expérience démontre la faisabilité d’un agent NL2SQL local, basé sur un LLM open source adapté à un cas d’usage métier. Néanmoins, les limitations techniques (environnement gratuit, nombre d'étapes réduit) restreignent ses capacités. Un entraînement plus long, réalisé sur des ressources GPU professionnelles, permettrait d’obtenir un modèle beaucoup plus robuste et performant en production.
+Cette expérience démontre la faisabilité d’un agent NL2SQL local, basé sur un LLM open source adapté à un cas d’usage métier. Néanmoins, les limitations techniques (environnement gratuit, nombre d'étapes réduit) restreignent ses capacités. Un entraînement plus long, réalisé sur des ressources GPU professionnelles, permettrait d’obtenir un modèle beaucoup plus robuste et performant en production. Pour aller aù-dela, on peut même baser sur une architecture composer d'un modèle Seq2SQL \cite{zhong2017seq2sql} et un autre générale fine-tunned.
 
 
 \end{document}
